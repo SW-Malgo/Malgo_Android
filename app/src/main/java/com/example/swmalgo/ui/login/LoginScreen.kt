@@ -19,6 +19,10 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -29,75 +33,122 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.swmalgo.R
+import com.example.swmalgo.domain.model.ApplicationState
+import com.example.swmalgo.ui.components.CustomTextField
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.ui.theme.SEARCH_BLUE
+import com.example.swmalgo.utils.Constants.SIGNUP_GRAPH
 
-@Preview
 @Composable
-fun LoginScreen() {
+fun LoginScreen(appState: ApplicationState) {
+
+    var email by remember {
+        mutableStateOf("")
+    }
+    var password by remember {
+        mutableStateOf("")
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MAIN_BACKGROUND)
-            .padding(30.dp)
+            .padding(horizontal = 30.dp)
     ) {
         Text(
             text = "로그인",
-            fontSize = 24.sp,
+            fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
-                .padding(top = 110.dp),
+                .padding(top = 60.dp),
             color = Color.White
         )
 
         Text(
-            text = "회사 이메일을 적어주세요",
+            text = "회사 이메일을 적어주세요.",
             fontSize = 22.sp,
             fontWeight = FontWeight.Normal,
             color = Color.White,
             modifier = Modifier
-                .padding(top = 76.dp)
+                .padding(top = 110.dp)
         )
 
-        Box(    // 회사 이메일
+        CustomTextField(
+            value = email,
+            onvalueChanged = { email = it },
             modifier = Modifier
-                .padding(start = 30.dp, top = 27.dp)
-                .width(330.dp)
-                .height(69.dp)
-                .background(Color.LightGray)
+                .padding(top = 30.dp)
+                .fillMaxWidth()
+                .height(69.dp),
+            placeholderText = "회사 이메일"
+        )
 
-        ) {}
-
-        Box(    // 회사 비밀번호
+        CustomTextField(
+            value = password,
+            onvalueChanged = { password = it },
             modifier = Modifier
-                .padding(start = 30.dp, top = 40.dp)
-                .width(330.dp)
-                .height(69.dp)
-                .background(Color.LightGray)
+                .padding(top = 10.dp)
+                .fillMaxWidth()
+                .height(69.dp),
+            placeholderText = "비밀번호",
+            visibleTransform = PasswordVisualTransformation()
+        )
 
-        ) {}
+        Row(
+            modifier = Modifier.padding(top = 10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_check_fill_20),
+                contentDescription = null,
+                tint = Color.Unspecified,
+                modifier = Modifier
+                    .size(20.dp)
+            )
+            Text(
+                text = "자동 로그인",
+                color = Color.White,
+                modifier = Modifier.padding(start = 5.dp, bottom = 3.dp),
+                fontSize = 14.sp
+            )
+
+            Icon(
+                painter = painterResource(id = R.drawable.ic_check_baseline_20),
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier
+                    .padding(start = 20.dp)
+                    .size(20.dp)
+            )
+            Text(
+                text = "이메일 저장",
+                color = Color.White,
+                modifier = Modifier.padding(start = 5.dp, bottom = 3.dp),
+                fontSize = 14.sp
+            )
+        }
 
         Box(modifier = Modifier.weight(1f))
 
         Column(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
-                .padding(bottom = 100.dp)
+                .padding(bottom = 70.dp)
                 .wrapContentSize()
                 .fillMaxWidth()
 
         ) {
             Button(
                 onClick = {
-                    // TOOD
-                    // 키워드 설정화면으로 이동
+                    // 구현 X
                 },
                 shape = RectangleShape,
                 modifier = Modifier
@@ -106,9 +157,9 @@ fun LoginScreen() {
                 Text(
                     text = "로그인",
                     color = MAIN_BACKGROUND,
-                    fontSize = 20.sp,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(5.dp)
+                    modifier = Modifier.padding(3.dp)
                 )
             }
 
@@ -128,7 +179,8 @@ fun LoginScreen() {
                     }
                 },
                 fontSize = 14.sp,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
                     .padding(top = 16.dp)
             )
         }
@@ -144,21 +196,27 @@ fun LoginScreen() {
                 color = Color.White
             )
 
-            Text(
-                text = "회원가입",
-                style = TextStyle(textDecoration = TextDecoration.Underline),
-                fontSize = 15.sp,
-                color = Color.White
-            )
-            Icon(
-                painter = painterResource(id = R.drawable.ic_baseline_arrow_back_ios_24),
-                contentDescription = null,
-                tint = Color.White,
-                modifier = Modifier
-                    .height(15.dp)
-                    .rotate(180f)
-                    .padding(start = 0.dp)
-            )
+            Row(
+                modifier = Modifier.clickable {
+                    appState.navigate(SIGNUP_GRAPH)
+                }
+            ) {
+                Text(
+                    text = "회원가입",
+                    style = TextStyle(textDecoration = TextDecoration.Underline),
+                    fontSize = 15.sp,
+                    color = Color.White
+                )
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_baseline_arrow_back_ios_24),
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier
+                        .height(15.dp)
+                        .rotate(180f)
+                        .padding(start = 0.dp)
+                )
+            }
         }
     }
 

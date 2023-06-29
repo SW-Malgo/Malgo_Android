@@ -14,7 +14,7 @@ fun NavGraphBuilder.loginGraph(
 ) {
     navigation(startDestination = LOGIN_ROUTE, route = LOGIN_GRAPH) {
         composable(LOGIN_ROUTE) { entry ->
-            LoginScreen()
+            LoginScreen(appState)
         }
     }
 }
