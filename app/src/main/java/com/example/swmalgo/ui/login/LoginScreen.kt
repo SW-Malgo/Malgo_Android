@@ -45,6 +45,8 @@ import com.example.swmalgo.ui.components.CustomTextField
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.ui.theme.SEARCH_BLUE
+import com.example.swmalgo.utils.Constants.LOGIN_GRAPH
+import com.example.swmalgo.utils.Constants.MAIN_GRAPH
 import com.example.swmalgo.utils.Constants.SIGNUP_GRAPH
 
 @Composable
@@ -149,6 +151,11 @@ fun LoginScreen(appState: ApplicationState) {
             Button(
                 onClick = {
                     // 구현 X
+                    appState.navController.navigate(MAIN_GRAPH) {
+                        popUpTo(LOGIN_GRAPH) {
+                            inclusive = true
+                        }
+                    }
                 },
                 shape = RectangleShape,
                 modifier = Modifier

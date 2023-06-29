@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Button
@@ -34,57 +35,62 @@ fun SignUpEmailVerifyScreen(appState: ApplicationState) {
         mutableStateOf("")
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MAIN_BACKGROUND)
-            .padding(horizontal = 30.dp)
-    ) {
-        Text(
-            text = "회원가입",
-            fontSize = 28.sp,
-            fontWeight = FontWeight.Bold,
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        Column(
             modifier = Modifier
-                .padding(top = 60.dp),
-            color = Color.White
-        )
+                .fillMaxSize()
+                .background(MAIN_BACKGROUND)
+                .imePadding()
+                .weight(1f)
+                .padding(horizontal = 30.dp)
+        ) {
+            Text(
+                text = "회원가입",
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(top = 60.dp),
+                color = Color.White
+            )
 
-        Text(
-            text = "인증번호가 전송되었어요.",
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Normal,
-            color = Color.White,
-            modifier = Modifier
-                .padding(top = 70.dp)
-        )
+            Text(
+                text = "인증번호가 전송되었어요.",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color.White,
+                modifier = Modifier
+                    .padding(top = 70.dp)
+            )
 
-        CustomTextField(
-            value = certificateNumber,
-            onvalueChanged = {
-                if (it.length < 7) {
-                    certificateNumber = it
-                }
-            },
-            modifier = Modifier
-                .padding(top = 30.dp)
-                .fillMaxWidth()
-                .height(69.dp),
-            placeholderText = "인증 번호",
-            keyboardActions = KeyboardActions(onDone = {
-                appState.navigate(SIGNUP_PASSWORD_ROUTE)
-            })
-        )
+            CustomTextField(
+                value = certificateNumber,
+                onvalueChanged = {
+                    if (it.length < 7) {
+                        certificateNumber = it
+                    }
+                },
+                modifier = Modifier
+                    .padding(top = 30.dp)
+                    .fillMaxWidth()
+                    .height(69.dp),
+                placeholderText = "인증 번호",
+                keyboardActions = KeyboardActions(onDone = {
+                    appState.navigate(SIGNUP_PASSWORD_ROUTE)
+                })
+            )
 
-        Box(modifier = Modifier.weight(1f))
+            Box(modifier = Modifier.weight(1f))
 
+
+        }
         Button(
             onClick = {
                 appState.navigate(SIGNUP_PASSWORD_ROUTE)
             },
             shape = RectangleShape,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 60.dp),
+                .fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(POINT)
         ) {
             Text(
@@ -95,6 +101,6 @@ fun SignUpEmailVerifyScreen(appState: ApplicationState) {
                 modifier = Modifier.padding(3.dp)
             )
         }
-
     }
+
 }

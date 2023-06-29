@@ -32,6 +32,7 @@ import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.utils.Constants
 import com.example.swmalgo.utils.Constants.MAIN_GRAPH
 import com.example.swmalgo.utils.Constants.SIGNUP_GRAPH
+import com.example.swmalgo.utils.Constants.SIGNUP_KEYWORD_ROUTE
 
 @Composable
 fun SignUpPasswordScreen(appState: ApplicationState) {
@@ -66,76 +67,72 @@ fun SignUpPasswordScreen(appState: ApplicationState) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MAIN_BACKGROUND)
-            .padding(horizontal = 30.dp)
     ) {
-        Text(
-            text = "회원가입",
-            fontSize = 28.sp,
-            fontWeight = FontWeight.Bold,
+        Column(
             modifier = Modifier
-                .padding(top = 60.dp),
-            color = Color.White
-        )
-
-        Text(
-            text = "비밀번호를 입력해 주세요.",
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Normal,
-            color = Color.White,
-            modifier = Modifier
-                .padding(top = 70.dp)
-        )
-
-        CustomTextField(
-            value = password,
-            onvalueChanged = { password = it },
-            modifier = Modifier
-                .padding(top = 30.dp)
                 .fillMaxWidth()
-                .height(69.dp),
-            placeholderText = "비밀번호",
-            onErrorState = passwordVaild,
-            errorMessage = "숫자, 영어, 특수문자를 포함해 8~15글자여야 합니다.",
-            visibleTransform = PasswordVisualTransformation()
-        )
+                .background(MAIN_BACKGROUND)
+                .weight(1f)
+                .padding(horizontal = 30.dp)
+        ) {
+            Text(
+                text = "회원가입",
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(top = 60.dp),
+                color = Color.White
+            )
 
-        CustomTextField(
-            value = retryPassword,
-            onvalueChanged = { retryPassword = it },
-            modifier = Modifier
-                .padding(top = 10.dp)
-                .fillMaxWidth()
-                .height(69.dp),
-            placeholderText = "비밀번호 확인",
-            onErrorState = retryPasswordVaild,
-            errorMessage = "비밀번호가 다릅니다.",
-            keyboardActions = KeyboardActions(onDone = {
-                if (!passwordVaild) {
-                    appState.navController.navigate(MAIN_GRAPH) {
-                        popUpTo(SIGNUP_GRAPH) {
-                            inclusive = true
-                        }
+            Text(
+                text = "비밀번호를 입력해 주세요.",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color.White,
+                modifier = Modifier
+                    .padding(top = 70.dp)
+            )
+
+            CustomTextField(
+                value = password,
+                onvalueChanged = { password = it },
+                modifier = Modifier
+                    .padding(top = 30.dp)
+                    .fillMaxWidth()
+                    .height(69.dp),
+                placeholderText = "비밀번호",
+                onErrorState = passwordVaild,
+                errorMessage = "숫자, 영어, 특수문자를 포함해 8~15글자여야 합니다.",
+                visibleTransform = PasswordVisualTransformation()
+            )
+
+            CustomTextField(
+                value = retryPassword,
+                onvalueChanged = { retryPassword = it },
+                modifier = Modifier
+                    .padding(top = 10.dp)
+                    .fillMaxWidth()
+                    .height(69.dp),
+                placeholderText = "비밀번호 확인",
+                onErrorState = retryPasswordVaild,
+                errorMessage = "비밀번호가 다릅니다.",
+                keyboardActions = KeyboardActions(onDone = {
+                    if (!passwordVaild) {
+                        appState.navController.navigate(SIGNUP_KEYWORD_ROUTE)
                     }
-                }
-            }),
-            visibleTransform = PasswordVisualTransformation()
-        )
+                }),
+                visibleTransform = PasswordVisualTransformation()
+            )
 
-        Box(modifier = Modifier.weight(1f))
-
+            Box(modifier = Modifier.weight(1f))
+        }
         Button(
             onClick = {
-                appState.navController.navigate(MAIN_GRAPH) {
-                    popUpTo(SIGNUP_GRAPH) {
-                        inclusive = true
-                    }
-                }
+                appState.navController.navigate(SIGNUP_KEYWORD_ROUTE)
             },
             shape = RectangleShape,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 60.dp),
+                .fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(POINT)
         ) {
             Text(
@@ -146,6 +143,6 @@ fun SignUpPasswordScreen(appState: ApplicationState) {
                 modifier = Modifier.padding(3.dp)
             )
         }
-
     }
+
 }
