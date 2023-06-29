@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalGlideComposeApi::class)
+
 package com.example.swmalgo.ui.group
 
 import androidx.compose.foundation.Image
@@ -31,11 +33,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.example.swmalgo.R
 import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.ui.theme.PURE_WHITE
+import com.example.swmalgo.utils.Constants.MY_INTERESTED_GROUP
+import com.example.swmalgo.utils.Constants.NOT_INTERTESTED_GROUP
 import com.example.swmalgo.utils.Constants.UPLOAD_GROUP_ROUTE
 
 @Composable
@@ -126,15 +132,15 @@ fun GroupScreen(
                 horizontalArrangement = Arrangement.spacedBy(20.dp),
                 verticalArrangement = Arrangement.spacedBy(40.dp),
                 content = {
-                    items(itemList) { item ->
-                        val title = item[0]
-                        val hashtags = item[1]
+                    items(
+                        (MY_INTERESTED_GROUP + NOT_INTERTESTED_GROUP).shuffled()
+                    ) { group ->
 
                         Column(
                             modifier = Modifier.weight(1f)
                         ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.temp_img),
+                            GlideImage(
+                                model = group.images.firstOrNull(),
                                 contentDescription = null,
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier
@@ -147,7 +153,7 @@ fun GroupScreen(
                                     .padding(top = 10.dp)
                             ) {
                                 Text(
-                                    text = title,
+                                    text = group.title,
                                     color = PURE_WHITE,
                                     fontSize = 14.sp,
                                     modifier = Modifier
@@ -155,7 +161,7 @@ fun GroupScreen(
                                 )
 
                                 Text(
-                                    text = hashtags,
+                                    text = group.tags,
                                     color = PURE_WHITE,
                                     fontSize = 10.sp,
                                     modifier = Modifier

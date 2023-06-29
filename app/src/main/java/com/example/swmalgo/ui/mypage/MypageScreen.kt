@@ -15,11 +15,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -42,6 +44,7 @@ import com.example.swmalgo.ui.theme.Gray800
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.PURE_WHITE
 import com.example.swmalgo.ui.theme.White800
+import com.example.swmalgo.utils.Constants.MY_GROUP
 import com.example.swmalgo.utils.Constants.USER_NUMBER
 
 @Composable
@@ -62,6 +65,16 @@ fun MypageScreen() {
         Box(
             modifier = Modifier
         ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_baseline_settings_24),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(24.dp)
+                    .align(Alignment.TopEnd)
+                    .padding(20.dp),
+                tint = Color.White
+            )
+
             GlideImage(
                 model = R.drawable.img_mypage_temp,
                 contentDescription = null,
@@ -121,33 +134,49 @@ fun MypageScreen() {
 
         LazyVerticalGrid(
             modifier = Modifier
-                .padding(top = 30.dp, start = 30.dp, end = 30.dp),
+                .padding(top = 30.dp, start = 30.dp, end = 30.dp, bottom = 70.dp),
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(20.dp),
             verticalArrangement = Arrangement.spacedBy(40.dp),
             content = {
-                items(itemList) { item ->
-                    val title = item[0]
-                    val hashtags = item[1]
+                items(MY_GROUP) { group ->
 
                     Column(
                         modifier = Modifier.weight(1f)
                     ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.temp_img),
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop,
+                        Box(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .aspectRatio(1.2f)
-                        )
+                        ) {
+
+                            GlideImage(
+                                model = group.images.firstOrNull(),
+                                contentDescription = null,
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                            )
+
+                            if (group.tags.contains("운동")) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.ic_king),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .align(Alignment.TopEnd)
+                                        .padding(5.dp)
+                                        .size(24.dp)
+                                )
+                            }
+                        }
+
                         Column(
                             modifier = Modifier
                                 .wrapContentHeight()
                                 .padding(top = 10.dp)
                         ) {
                             Text(
-                                text = title,
+                                text = group.title,
                                 color = PURE_WHITE,
                                 fontSize = 14.sp,
                                 modifier = Modifier
@@ -155,7 +184,7 @@ fun MypageScreen() {
                             )
 
                             Text(
-                                text = hashtags,
+                                text = group.tags,
                                 color = PURE_WHITE,
                                 fontSize = 10.sp,
                                 modifier = Modifier
@@ -166,5 +195,6 @@ fun MypageScreen() {
                 }
             }
         )
+
     }
 }

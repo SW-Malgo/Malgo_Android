@@ -39,10 +39,10 @@ fun NavGraphBuilder.mainGraph(
             UploadGroupScreen(appState)
         }
         composable(DETAIL_PAGE_BEFORE_JOIN_ROUTE) {
-            DetailPageBeforeJoinScreen()
+            DetailPageBeforeJoinScreen(appState)
         }
         composable(DETAIL_PAGE_AFTER_JOIN_ROUTE) {
-            DetailPageAfterJoinScreen()
+            DetailPageAfterJoinScreen(appState)
         }
 
     }

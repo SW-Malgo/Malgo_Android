@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalGlideComposeApi::class)
+
 package com.example.swmalgo.ui.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -27,16 +29,19 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.example.swmalgo.R
 import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.ui.theme.White800
-import com.example.swmalgo.utils.Constants
 import com.example.swmalgo.utils.Constants.DETAIL_PAGE_BEFORE_JOIN_ROUTE
+import com.example.swmalgo.utils.Constants.MY_INTERESTED_GROUP
+import com.example.swmalgo.utils.Constants.USER_TAGS
+import com.example.swmalgo.utils.Group
 import com.google.accompanist.pager.HorizontalPagerIndicator
 
 @Composable
@@ -64,7 +69,7 @@ fun HomeInterestedScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "#운동 #AI #음악",
+                text = "${USER_TAGS}",
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
                 color = Color.White
@@ -76,7 +81,7 @@ fun HomeInterestedScreen(
                 .weight(1f)
         ) {
 
-            items(listOf("ㅇㅇ모임", "ㄴㄴ모임", "ㅎㅎ모임", "ㅁㅁ모임")) {
+            items(MY_INTERESTED_GROUP) {
                 InterrestedItemDetail(
                     it,
                     navigateToDetail = {
@@ -92,7 +97,7 @@ fun HomeInterestedScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun InterrestedItemDetail(
-    title: String,
+    group: Group,
     navigateToDetail: () -> Unit
 ) {
 
@@ -100,7 +105,7 @@ fun InterrestedItemDetail(
         initialPage = 0,
         initialPageOffsetFraction = 0f
     ) {
-        3
+        group.images.size
     }
 
     Column(
@@ -117,9 +122,9 @@ fun InterrestedItemDetail(
                     navigateToDetail()
                 }
         ) {
-            HorizontalPager(state = pagerState) {
-                Image(
-                    painter = painterResource(id = R.drawable.splacsh_screen),
+            HorizontalPager(state = pagerState) { it ->
+                GlideImage(
+                    model = group.images[it],
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxSize(),
@@ -127,7 +132,7 @@ fun InterrestedItemDetail(
                 )
             }
             HorizontalPagerIndicator(
-                pagerState = pagerState, pageCount = 3,
+                pagerState = pagerState, pageCount = group.images.size,
                 activeColor = Color.White,
                 inactiveColor = Color.White.copy(alpha = 0.3f),
                 modifier = Modifier
@@ -145,12 +150,12 @@ fun InterrestedItemDetail(
 
                 Column(modifier = Modifier.weight(3f)) {
                     Text(
-                        text = title,
+                        text = group.title,
                         fontWeight = FontWeight.Bold,
                         fontSize = 22.sp,
                         color = Color.White
                     )
-                    Text(text = "#음악 #듣기 #즐겨요", fontSize = 12.sp, color = Color.White)
+                    Text(text = group.tags, fontSize = 12.sp, color = Color.White)
                 }
                 Button(
                     onClick = { /*TODO*/ },
@@ -168,7 +173,7 @@ fun InterrestedItemDetail(
                 }
             }
             Text(
-                text = "모두 출근하실 때 우산 챙겨주시면 좋을 것 같아요!\n비가 너무 많이와 해커톤언제끝나지\n집에 가버리고싶군요",
+                text = group.content,
                 fontSize = 12.sp,
                 color = Color.White,
                 modifier = Modifier.padding(top = 20.dp)

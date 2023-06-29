@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalFoundationApi::class)
+@file:OptIn(ExperimentalFoundationApi::class, ExperimentalGlideComposeApi::class)
 
 package com.example.swmalgo.ui.home
 
@@ -42,6 +42,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.example.swmalgo.R
 import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.components.rememberApplicationState
@@ -52,7 +54,11 @@ import com.example.swmalgo.utils.Constants
 import com.example.swmalgo.utils.Constants.DETAIL_PAGE_AFTER_JOIN_ROUTE
 import com.example.swmalgo.utils.Constants.UPLOAD_GROUP_ROUTE
 import com.example.swmalgo.utils.Constants.HOME_INTERESTED_ROUTE
+import com.example.swmalgo.utils.Constants.MY_INTERESTED_GROUP
+import com.example.swmalgo.utils.Constants.NOT_INTERTESTED_GROUP
 import com.example.swmalgo.utils.Constants.USER_NUMBER
+import com.example.swmalgo.utils.Constants.USER_TAGS
+import com.example.swmalgo.utils.Group
 import com.google.accompanist.pager.HorizontalPagerIndicator
 
 @Composable
@@ -146,14 +152,14 @@ fun HomeScreen(appState: ApplicationState = rememberApplicationState()) {
 
             HomeGroupeContainer(
                 appState = appState,
-                title = "#코딩 #음악 #운동 모임",
-                itemList = itemList
+                title = "$USER_TAGS 모임",
+                itemList = MY_INTERESTED_GROUP
             )
 
             HomeGroupeContainer(
                 appState = appState,
                 title = "이런 동아리는 어때요?",
-                itemList = itemList
+                itemList = NOT_INTERTESTED_GROUP
             )
 
             Spacer(modifier = Modifier.height(64.dp))
@@ -185,7 +191,7 @@ fun HomeScreen(appState: ApplicationState = rememberApplicationState()) {
 private fun HomeGroupeContainer(
     appState: ApplicationState,
     title: String,
-    itemList: List<List<String>>
+    itemList: List<Group>
 ) {
     Column(
         modifier = Modifier
@@ -226,8 +232,6 @@ private fun HomeGroupeContainer(
             Spacer(modifier = Modifier.width(20.dp))
         }
         items(itemList) { item ->
-            val title = item[0]
-            val hashtags = item[1]
             Column(
                 modifier = Modifier
                     .wrapContentSize()
@@ -239,12 +243,11 @@ private fun HomeGroupeContainer(
                         .padding(horizontal = 10.dp)
                         .border(1.dp, Color.Black)
                         .clickable {
-//                            appState.navigate(DETAIL_PAGE_BEFORE_JOIN_ROUTE)
                             appState.navigate(DETAIL_PAGE_AFTER_JOIN_ROUTE)
                         }
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.temp_img),
+                    GlideImage(
+                        model = item.images.firstOrNull(),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -252,7 +255,7 @@ private fun HomeGroupeContainer(
                     )
                 }
                 Text(
-                    text = title,
+                    text = item.title,
                     color = PURE_WHITE,
                     fontSize = 14.sp,
                     modifier = Modifier
@@ -260,7 +263,7 @@ private fun HomeGroupeContainer(
                 )
 
                 Text(
-                    text = hashtags,
+                    text = item.tags,
                     color = PURE_WHITE,
                     fontSize = 10.sp,
                     modifier = Modifier
