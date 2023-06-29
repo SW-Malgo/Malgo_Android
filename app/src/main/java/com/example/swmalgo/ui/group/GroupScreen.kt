@@ -3,9 +3,11 @@ package com.example.swmalgo.ui.group
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,61 +32,70 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.swmalgo.R
+import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
+import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.ui.theme.PURE_WHITE
+import com.example.swmalgo.utils.Constants.UPLOAD_GROUP_ROUTE
 
-@Preview(showBackground = true)
 @Composable
-fun GroupScreen() {
+fun GroupScreen(
+    appState: ApplicationState
+) {
 
-    Box(modifier = Modifier
-        .fillMaxSize()) {
+    val itemList: List<List<String>> = listOf(
+        listOf("말고(malgo!)", "#업무 #말고 #취미생활"),
+        listOf("맛집탐방", "#먹고 #사는 #문제"),
+        listOf("독서와 글쓰기", "#독서 #글쓰기 #활동"),
+        listOf("배드민턴 동아리", "#배드민턴 #치면서 #친해져요"),
+        listOf("한강과 자전거", "#한강에서 #자전거 #낭만그잡채"),
+        listOf("커피가 좋아", "#커피 #커피 #탐방")
+    )
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MAIN_BACKGROUND)
+                .padding(bottom = 70.dp)
         ) {
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 79.dp, start = 30.dp, end = 30.dp)
+                    .padding(top = 30.dp, start = 30.dp, end = 30.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                Column() {
-                    Text(
-                        text = "모든 동아리",
-                        fontSize = 20.sp,
-                        color = PURE_WHITE
-                    )
-
+                Column {
+                    Text(text = "모든 동아리", fontSize = 20.sp, color = PURE_WHITE)
                     Text(
                         text = "우리 회사 내에 모든 동아리를 볼 수 있어요",
-                        modifier = Modifier
-                            .padding(top = 8.dp),
-                        color = PURE_WHITE
+                        modifier = Modifier.padding(top = 0.dp),
+                        color = PURE_WHITE,
+                        fontSize = 12.sp
                     )
                 }
-
-                Box(
-                    Modifier.weight(1f)
-                )
 
                 Image(
                     painter = painterResource(id = R.drawable.ic_reading_glasses),
                     contentDescription = null,
                     contentScale = ContentScale.Fit, // ScaleType
                     modifier = Modifier
-                        .size(width = 17.dp, height = 19.dp)
+                        .size(width = 20.dp, height = 22.dp)
                 )
             }
-
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .padding(top = 32.dp, start = 30.dp, end = 30.dp)
+                    .padding(top = 30.dp, start = 30.dp, end = 30.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(3.dp)
             ) {
-
 
                 Box(
                     Modifier.weight(1f)
@@ -108,79 +119,64 @@ fun GroupScreen() {
             }
 
 
-
             LazyVerticalGrid(
                 modifier = Modifier
-                    .padding(top = 8.dp, start = 30.dp, end = 11.dp)
-                    ,
+                    .padding(top = 10.dp, start = 30.dp, end = 30.dp),
                 columns = GridCells.Fixed(2),
+                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                verticalArrangement = Arrangement.spacedBy(40.dp),
                 content = {
-                    val itemList: List<List<String>> = listOf(
-                        listOf("말고(malgo!)", "#업무 #말고 #취미생활",),
-                        listOf("맛집탐방", "#먹고 #사는 #문제",),
-                        listOf("독서와 글쓰기", "#독서 #글쓰기 #활동"),
-                        listOf("배드민턴 동아리", "#배드민턴 #치면서 #친해져요"),
-                        listOf("한강과 자전거", "#한강에서 #자전거 #낭만그잡채"),
-                        listOf("커피가 좋아", "#커피 #커피 #탐방")
-                    )
-
-
-
-
-
-
-
                     items(itemList) { item ->
                         val title = item[0]
                         val hashtags = item[1]
-                        Box(
-                            modifier = Modifier
-                                .width(155.dp)
-                                .height(180.dp)
-                                .padding(end = 19.dp, bottom = 80.dp)
-                                .border(1.dp, Color.Black)
+
+                        Column(
+                            modifier = Modifier.weight(1f)
                         ) {
                             Image(
                                 painter = painterResource(id = R.drawable.temp_img),
                                 contentDescription = null,
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier
-                                    .fillMaxSize()
+                                    .fillMaxWidth()
+                                    .aspectRatio(1.2f)
                             )
-
-                        }
-                        Column(
-                            modifier = Modifier
-                                .wrapContentHeight()
-                                .padding(top = 100.dp)
-                        ) {
-                            Text(
-                                text = title.toString(),
-                                color = PURE_WHITE,
-                                fontSize = 11.sp,
+                            Column(
                                 modifier = Modifier
-                                    .padding(top = 8.dp)
-                            )
+                                    .wrapContentHeight()
+                                    .padding(top = 10.dp)
+                            ) {
+                                Text(
+                                    text = title,
+                                    color = PURE_WHITE,
+                                    fontSize = 14.sp,
+                                    modifier = Modifier
+                                        .padding(top = 5.dp)
+                                )
 
-                            Text(
-                                text = hashtags.toString(),
-                                color = PURE_WHITE,
-                                fontSize = 6.sp,
-                                modifier = Modifier
-                                    .padding(top = 5.dp)
-                            )
+                                Text(
+                                    text = hashtags,
+                                    color = PURE_WHITE,
+                                    fontSize = 10.sp,
+                                    modifier = Modifier
+                                        .padding(top = 3.dp)
+                                )
+                            }
                         }
+
                     }
                 }
             )
         }
-
-        FloatingActionButton(onClick = { /*TODO*/ },
+        FloatingActionButton(onClick = {
+            appState.navigate(UPLOAD_GROUP_ROUTE)
+        },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(bottom = 139.dp, end = 30.dp),
+                .padding(30.dp)
+                .padding(bottom = 64.dp),
             shape = CircleShape,
-            containerColor = Color.Unspecified,
+            containerColor = POINT,
             content = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_plus_btn),

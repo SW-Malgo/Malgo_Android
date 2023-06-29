@@ -6,7 +6,9 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.Icon
@@ -45,6 +47,7 @@ fun BoxScope.BottomBar(
             .navigationBarsPadding(),
     ) {
         BottomNavigation(
+            modifier = Modifier.height(64.dp),
             backgroundColor = MAIN_BACKGROUND,
             elevation = 0.dp
         ) {
@@ -60,7 +63,7 @@ fun BoxScope.BottomBar(
                                 id = (if (isSelected) screen.selectedIcon else screen.unselectedIcon),
                             ),
                             contentDescription = null,
-                            tint = Color.Unspecified
+                            tint = Color.Unspecified,
                         )
                     },
                     label = null,

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -56,11 +57,13 @@ fun CustomTextField(
     onErrorState: Boolean = false,
     visibleTransform: VisualTransformation = VisualTransformation.None,
     errorMessage: String = "",
+    deleteButtonVisibe: Boolean = true,
+    singleLine: Boolean = true,
 ) {
     val bottomLineColor = remember {
         mutableStateOf(Gray600)
     }
-    Column(modifier = modifier) {
+    Column(modifier = modifier.wrapContentHeight()) {
         BasicTextField(
             modifier = Modifier
                 .bottomBorder(1.dp, Gray300)
@@ -76,9 +79,9 @@ fun CustomTextField(
                 .focusRequester(focusRequest ?: FocusRequester()),
             value = value,
             onValueChange = {
-                if (it.length <= 25) onvalueChanged(it)
+                onvalueChanged(it)
             },
-            singleLine = true,
+            singleLine = singleLine,
             cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
             textStyle = LocalTextStyle.current.copy(
                 color = Color.White,
@@ -89,7 +92,9 @@ fun CustomTextField(
             decorationBox = { innerTextField ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(0.dp, 15.dp)
+                    modifier = Modifier
+                        .padding(0.dp, 15.dp)
+                        .wrapContentHeight()
                 ) {
                     if (leadingIcon != null) leadingIcon()
                     Box(Modifier.weight(1f)) {
@@ -104,7 +109,7 @@ fun CustomTextField(
                         }
                         innerTextField()
                     }
-                    if (value.isNotBlank()) {
+                    if (value.isNotBlank() && deleteButtonVisibe) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_baseline_delete_all_24),
                             contentDescription = null,

@@ -31,14 +31,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.swmalgo.R
+import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.ui.theme.White800
 import com.google.accompanist.pager.HorizontalPagerIndicator
 
-@Preview
 @Composable
-fun HomeInterestedScreen() {
+fun HomeInterestedScreen(
+    appState: ApplicationState
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -51,7 +53,7 @@ fun HomeInterestedScreen() {
             modifier = Modifier
                 .padding(start = 30.dp, top = 25.dp, bottom = 10.dp)
                 .clickable {
-
+                    appState.popBackStack()
                 })
         Column(
             modifier = Modifier
