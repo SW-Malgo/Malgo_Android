@@ -32,13 +32,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.swmalgo.R
+import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.ui.theme.PURE_WHITE
+import com.example.swmalgo.utils.Constants.UPLOAD_GROUP_ROUTE
 
-@Preview(showBackground = true)
 @Composable
-fun GroupScreen() {
+fun GroupScreen(
+    appState: ApplicationState
+) {
 
     val itemList: List<List<String>> = listOf(
         listOf("말고(malgo!)", "#업무 #말고 #취미생활"),
@@ -89,7 +92,9 @@ fun GroupScreen() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .padding(top = 30.dp, start = 30.dp, end = 30.dp)
+                    .padding(top = 30.dp, start = 30.dp, end = 30.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(3.dp)
             ) {
 
                 Box(
@@ -163,7 +168,9 @@ fun GroupScreen() {
                 }
             )
         }
-        FloatingActionButton(onClick = { /*TODO*/ },
+        FloatingActionButton(onClick = {
+            appState.navigate(UPLOAD_GROUP_ROUTE)
+        },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(30.dp)

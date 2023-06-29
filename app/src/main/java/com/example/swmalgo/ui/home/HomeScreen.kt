@@ -35,16 +35,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.LinearGradient
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.swmalgo.R
@@ -53,6 +50,7 @@ import com.example.swmalgo.ui.components.rememberApplicationState
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.ui.theme.PURE_WHITE
+import com.example.swmalgo.utils.Constants.UPLOAD_GROUP_ROUTE
 import com.example.swmalgo.utils.Constants.HOME_INTERESTED_ROUTE
 import com.google.accompanist.pager.HorizontalPagerIndicator
 
@@ -190,7 +188,9 @@ fun HomeScreen(appState: ApplicationState = rememberApplicationState()) {
             Spacer(modifier = Modifier.height(64.dp))
         }
 
-        FloatingActionButton(onClick = { /*TODO*/ },
+        FloatingActionButton(onClick = {
+            appState.navigate(UPLOAD_GROUP_ROUTE)
+        },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(30.dp)
