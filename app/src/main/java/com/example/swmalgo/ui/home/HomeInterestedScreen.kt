@@ -51,7 +51,7 @@ fun HomeInterestedScreen(
             fontSize = 16.sp,
             color = White800,
             modifier = Modifier
-                .padding(start = 30.dp, top = 25.dp, bottom = 10.dp)
+                .padding(start = 20.dp, top = 20.dp, bottom = 10.dp)
                 .clickable {
                     appState.popBackStack()
                 })
