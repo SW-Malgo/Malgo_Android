@@ -13,6 +13,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.swmalgo.domain.model.ApplicationState
+import com.example.swmalgo.ui.graph.loginGraph
 import com.example.swmalgo.ui.graph.mainGraph
 import com.example.swmalgo.ui.splash.SplashScreen
 import com.example.swmalgo.utils.Constants.SPLASH_ROUTE
@@ -46,6 +47,7 @@ fun RootNavHost(
                     .background(color = Color.White),
             ) {
                 mainGraph(appState)
+                loginGraph(appState)
                 composable(SPLASH_ROUTE) {
                     SplashScreen(appState)
                 }
