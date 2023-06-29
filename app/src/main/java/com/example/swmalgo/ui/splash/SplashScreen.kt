@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.sp
 import com.example.swmalgo.R
 import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.components.rememberApplicationState
+import com.example.swmalgo.ui.theme.POINT
+import com.example.swmalgo.ui.theme.PURE_WHITE
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.utils.Constants.LOGIN_GRAPH
 import com.example.swmalgo.utils.Constants.MAIN_GRAPH
@@ -74,7 +76,7 @@ fun SplashScreen(
     ) {
         Text(
             buildAnnotatedString {
-                withStyle(style = SpanStyle(color = Color(0xffffffff))) {
+                withStyle(style = SpanStyle(color = PURE_WHITE)) {
                     append("업무 말고(MALGO) 취미생활")
                 }
             },
@@ -87,7 +89,7 @@ fun SplashScreen(
 
         Text(
             buildAnnotatedString {
-                withStyle(style = SpanStyle(color = Color(0xff00ff4e))) {
+                withStyle(style = SpanStyle(color = POINT)) {
                     append("Malgo!")
                 }
             },
@@ -129,7 +131,7 @@ fun SplashScreen(
 
         Text(
             buildAnnotatedString {
-                withStyle(style = SpanStyle(color = Color(0xffffffff))) {
+                withStyle(style = SpanStyle(color = PURE_WHITE)) {
                     append("#음악 #운동 #스터디 #특강 #봉사")
                 }
             },
@@ -142,7 +144,7 @@ fun SplashScreen(
 
         Text(
             buildAnnotatedString {
-                withStyle(style = SpanStyle(color = Color(0xffffffff))) {
+                withStyle(style = SpanStyle(color = PURE_WHITE)) {
                     append("관심사가 같은 동료를 만나보세요")
                 }
             },
