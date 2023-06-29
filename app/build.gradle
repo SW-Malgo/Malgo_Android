@@ -102,4 +102,8 @@ dependencies {
     // Accompanist - Statusbar Color바꾸기
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
 
+    // Lifecycles only (without ViewModel or LiveData)
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
+    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha05"
+
 }

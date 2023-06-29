@@ -1,9 +1,11 @@
 package com.example.swmalgo.ui.graph
 
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.swmalgo.domain.model.ApplicationState
+import com.example.swmalgo.ui.components.rememberNavControllerBackEntry
 import com.example.swmalgo.ui.signup.SignUpEmailVerifyScreen
 import com.example.swmalgo.ui.signup.SignUpPasswordScreen
 import com.example.swmalgo.ui.signup.SignUpEmailScreen
@@ -20,21 +22,43 @@ fun NavGraphBuilder.signUpGraph(
 ) {
 
     navigation(startDestination = SIGNUP_EMAIL_ROUTE, route = SIGNUP_GRAPH) {
-        composable(SIGNUP_EMAIL_ROUTE) {
-            SignUpEmailScreen(appState)
+        composable(SIGNUP_EMAIL_ROUTE) { entry ->
+            val backStackEntry = rememberNavControllerBackEntry(
+                entry = entry,
+                appState = appState,
+                graph = SIGNUP_GRAPH
+            )
+            SignUpEmailScreen(appState, hiltViewModel(backStackEntry))
         }
 
-        composable(SIGNUP_EMAIL_VALIDATE_ROUTE) {
-            SignUpEmailVerifyScreen(appState)
+        composable(SIGNUP_EMAIL_VALIDATE_ROUTE) { entry ->
+            val backStackEntry = rememberNavControllerBackEntry(
+                entry = entry,
+                appState = appState,
+                graph = SIGNUP_GRAPH
+            )
+            SignUpEmailVerifyScreen(appState, hiltViewModel(backStackEntry))
         }
 
-        composable(SIGNUP_PASSWORD_ROUTE) {
-            SignUpPasswordScreen(appState)
+        composable(SIGNUP_PASSWORD_ROUTE) { entry ->
+            val backStackEntry = rememberNavControllerBackEntry(
+                entry = entry,
+                appState = appState,
+                graph = SIGNUP_GRAPH
+            )
+            SignUpPasswordScreen(appState, hiltViewModel(backStackEntry))
         }
 
-        composable(SIGNUP_KEYWORD_ROUTE) {
-            SignUpKeywordScreen(appState)
+        composable(SIGNUP_KEYWORD_ROUTE) { entry ->
+            val backStackEntry = rememberNavControllerBackEntry(
+                entry = entry,
+                appState = appState,
+                graph = SIGNUP_GRAPH
+            )
+            SignUpKeywordScreen(appState, hiltViewModel(backStackEntry))
         }
     }
 
 }
+
+

@@ -24,42 +24,38 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.components.CustomTextField
 import com.example.swmalgo.ui.signup.SignUpViewModel.Companion.passWordRegex
+import com.example.swmalgo.ui.theme.Gray300
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.POINT
-import com.example.swmalgo.utils.Constants
-import com.example.swmalgo.utils.Constants.MAIN_GRAPH
-import com.example.swmalgo.utils.Constants.SIGNUP_GRAPH
 import com.example.swmalgo.utils.Constants.SIGNUP_KEYWORD_ROUTE
 
 @Composable
-fun SignUpPasswordScreen(appState: ApplicationState) {
-    var password by remember {
-        mutableStateOf("")
-    }
-    var retryPassword by remember {
-        mutableStateOf("")
-    }
+fun SignUpPasswordScreen(appState: ApplicationState, viewModel: SignUpViewModel) {
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     var passwordVaild by remember {
         mutableStateOf(true)
     }
     var retryPasswordVaild by remember {
         mutableStateOf(true)
     }
-    LaunchedEffect(key1 = password) {
-        passwordVaild = if (password.isBlank()) {
+    LaunchedEffect(key1 = uiState.password) {
+        passwordVaild = if (uiState.password.isBlank()) {
             false
         } else {
-            !(passWordRegex.matches(password))
+            !(passWordRegex.matches(uiState.password))
         }
     }
-    LaunchedEffect(key1 = retryPassword) {
-        retryPasswordVaild = if (retryPassword.isBlank()) {
+    LaunchedEffect(key1 = uiState.passwordCheck) {
+        retryPasswordVaild = if (uiState.passwordCheck.isBlank()) {
             false
         } else {
-            !(retryPassword == password)
+            !(uiState.passwordCheck == uiState.password)
         }
     }
 
@@ -94,8 +90,8 @@ fun SignUpPasswordScreen(appState: ApplicationState) {
             )
 
             CustomTextField(
-                value = password,
-                onvalueChanged = { password = it },
+                value = uiState.password,
+                onvalueChanged = viewModel::updatePassword,
                 modifier = Modifier
                     .padding(top = 30.dp)
                     .fillMaxWidth()
@@ -107,8 +103,8 @@ fun SignUpPasswordScreen(appState: ApplicationState) {
             )
 
             CustomTextField(
-                value = retryPassword,
-                onvalueChanged = { retryPassword = it },
+                value = uiState.passwordCheck,
+                onvalueChanged = viewModel::updatePasswordCheck,
                 modifier = Modifier
                     .padding(top = 10.dp)
                     .fillMaxWidth()
@@ -126,6 +122,10 @@ fun SignUpPasswordScreen(appState: ApplicationState) {
 
             Box(modifier = Modifier.weight(1f))
         }
+
+        val enable =
+            uiState.password.isNotBlank() && uiState.passwordCheck.isNotBlank() && !passwordVaild && !retryPasswordVaild
+
         Button(
             onClick = {
                 appState.navController.navigate(SIGNUP_KEYWORD_ROUTE)
@@ -133,7 +133,7 @@ fun SignUpPasswordScreen(appState: ApplicationState) {
             shape = RectangleShape,
             modifier = Modifier
                 .fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(POINT)
+            colors = ButtonDefaults.buttonColors(if (enable) POINT else Gray300)
         ) {
             Text(
                 text = "회원 가입",
