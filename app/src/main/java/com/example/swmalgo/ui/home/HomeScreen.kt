@@ -35,7 +35,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.swmalgo.R
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
-import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.ui.theme.PURE_WHITE
 
 @Preview(showBackground = true)
@@ -301,7 +300,7 @@ fun HomeScreen() {
                 .align(Alignment.BottomEnd)
                 .padding(bottom = 139.dp, end = 30.dp),
             shape = CircleShape,
-            containerColor = POINT,
+            containerColor = Color.Unspecified,
             content = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_plus_btn),
