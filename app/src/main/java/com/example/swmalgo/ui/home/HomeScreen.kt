@@ -50,6 +50,8 @@ import com.example.swmalgo.ui.components.rememberApplicationState
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.ui.theme.PURE_WHITE
+import com.example.swmalgo.utils.Constants.DETAIL_PAGE_AFTER_JOIN_ROUTE
+import com.example.swmalgo.utils.Constants.DETAIL_PAGE_BEFORE_JOIN_ROUTE
 import com.example.swmalgo.utils.Constants.UPLOAD_GROUP_ROUTE
 import com.example.swmalgo.utils.Constants.HOME_INTERESTED_ROUTE
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -126,42 +128,6 @@ fun HomeScreen(appState: ApplicationState = rememberApplicationState()) {
                             modifier = Modifier
                                 .fillMaxSize()
                         )
-                        // 좌에서 오른쪽 검정색, 투명색 그라디언트가 있는 박스
-//                        Box(
-//                            modifier = Modifier
-//                                .fillMaxWidth(0.7f)
-//                                .fillMaxHeight()
-//                                .align(Alignment.CenterStart)
-//                                .background(
-//                                    brush = Brush.horizontalGradient(
-//                                        colors = listOf(
-//                                            Color(0xFF000000),
-//                                            Color.Transparent
-//                                        ),
-//                                    )
-//                                )
-//                        )
-//                        Column(
-//                            modifier = Modifier
-//                                .fillMaxSize()
-//                                .padding(start = 30.dp)
-//                        ) {
-//                            Text(
-//                                text = "SAMSUNG & Malco!",
-//                                color = PURE_WHITE,
-//                                fontSize = 24.sp,
-//                                fontWeight = FontWeight.Bold,
-//                                modifier = Modifier
-//                                    .padding(top = 70.dp)
-//                            )
-//                            Text(
-//                                text = "공통 관심사와 취미를 통한 동료 연결 플랫폼\n" + "삼성과 말코가 함께 합니다!",
-//                                color = PURE_WHITE,
-//                                fontSize = 12.sp,
-//                                modifier = Modifier
-//                                    .padding(top = 12.dp)
-//                            )
-//                        }
                     }
                 }
                 HorizontalPagerIndicator(
@@ -269,6 +235,10 @@ private fun HomeGroupeContainer(
                         .height(120.dp)
                         .padding(horizontal = 10.dp)
                         .border(1.dp, Color.Black)
+                        .clickable {
+//                            appState.navigate(DETAIL_PAGE_BEFORE_JOIN_ROUTE)
+                            appState.navigate(DETAIL_PAGE_AFTER_JOIN_ROUTE)
+                        }
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.temp_img),

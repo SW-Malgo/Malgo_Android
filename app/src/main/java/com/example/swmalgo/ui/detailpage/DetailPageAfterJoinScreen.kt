@@ -1,5 +1,13 @@
+@file:OptIn(ExperimentalGlideComposeApi::class, ExperimentalGlideComposeApi::class)
+
 package com.example.swmalgo.ui.detailpage
 
+import android.graphics.Rect
+import android.os.Build
+import android.view.ViewTreeObserver
+import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -20,73 +28,91 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.example.swmalgo.R
+import com.example.swmalgo.domain.model.ChatMessage
+import com.example.swmalgo.ui.MainActivity.Companion.databaseReference
+import com.example.swmalgo.ui.components.CustomTextField
+import com.example.swmalgo.ui.theme.Gray600
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.ui.theme.PURE_WHITE
+import com.example.swmalgo.utils.Constants
+import com.example.swmalgo.utils.Constants.profileImages
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
+@RequiresApi(Build.VERSION_CODES.O)
+@OptIn(ExperimentalGlideComposeApi::class)
 @Preview(showBackground = true)
 @Composable
 fun DetailPageAfterJoinScreen() {
 
     var curCategory by remember {
-        mutableStateOf<Int>(1)
+        mutableStateOf<Int>(0)
     }
+    val isKeyboardOpen by keyboardAsState() // true or false
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MAIN_BACKGROUND)
-    ){
-        Box(
-            modifier = Modifier
-                .padding(top = 47.dp)
-                .wrapContentHeight()
-                .fillMaxWidth()
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.temp_img2),
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .width(392.dp)
-                    .height(260.dp)
-            )
+    ) {
+        AnimatedVisibility(visible = isKeyboardOpen == Keyboard.Closed) {
             Box(
                 modifier = Modifier
-                    .padding(top = 200.dp)
-                    .width(392.dp)
-                    .height(170.dp)
-                    .clip(RoundedCornerShape(topStartPercent = 10, topEndPercent = 10))
-                    .background(MAIN_BACKGROUND)
-
+                    .fillMaxWidth()
             ) {
-                Column(
+                Image(
+                    painter = painterResource(id = R.drawable.temp_img2),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .fillMaxSize()
+                        .fillMaxWidth()
+                        .height(260.dp)
+                )
+                Box(
+                    modifier = Modifier
+                        .padding(top = 200.dp)
+                        .fillMaxWidth()
+                        .height(110.dp)
+                        .clip(RoundedCornerShape(topStartPercent = 10, topEndPercent = 10))
+                        .background(MAIN_BACKGROUND)
                 ) {
                     Row(
                         modifier = Modifier
-                            .wrapContentSize()
+                            .fillMaxSize()
                             .padding(start = 30.dp, end = 30.dp)
                     ) {
                         Column(
@@ -94,12 +120,12 @@ fun DetailPageAfterJoinScreen() {
                                 .wrapContentSize()
                         ) {
                             Text(
-                                text = "최고의 음악 동아리",
+                                text = "슬기로운 삼성 생명",
                                 color = PURE_WHITE,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier
-                                    .padding(top = 23.dp)
+                                    .padding(top = 20.dp)
                             )
 
                             Text(
@@ -107,15 +133,15 @@ fun DetailPageAfterJoinScreen() {
                                 color = PURE_WHITE,
                                 fontSize = 12.sp,
                                 modifier = Modifier
-                                    .padding(top = 8.dp)
+                                    .padding(top = 0.dp)
                             )
 
                             Text(
                                 text = "21명 참여중",
                                 color = PURE_WHITE,
-                                fontSize = 10.sp,
+                                fontSize = 12.sp,
                                 modifier = Modifier
-                                    .padding(top = 8.dp)
+                                    .padding(top = 0.dp)
                             )
                         }
 
@@ -125,81 +151,114 @@ fun DetailPageAfterJoinScreen() {
 
                         Box(
                             modifier = Modifier
-                                .padding(top = 28.dp)
+                                .padding(top = 20.dp)
                                 .width(128.dp)
-                                .height(32.dp)
-                                .background(MAIN_BACKGROUND)
-                                .border(
-                                    width = 1.dp,
-                                    color = POINT
-                                )
-
+                                .wrapContentHeight()
+                                .border(BorderStroke(1.dp, POINT), RectangleShape)
+                                .background(Color.Transparent)
                         ) {
                             Text(
-                                text = "가입하기",
+                                text = "가입완료",
                                 fontWeight = FontWeight.Bold,
-                                fontSize = 11.sp,
+                                fontSize = 12.sp,
                                 color = POINT,
                                 modifier = Modifier
                                     .align(Alignment.Center)
+                                    .padding(vertical = 5.dp)
                             )
                         }
                     }
 
-                    Row(
+                }
+
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(20.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_baseline_arrow_back_ios_24),
+                        contentDescription = null,
+                        tint = Color.White,
                         modifier = Modifier
-                            .wrapContentSize()
-                            .padding(top = 27.dp, start = 30.dp, end = 30.dp),
-                    ){
-                        Text(
-                            text = "게시글",
-                            color = PURE_WHITE,
-                            modifier = Modifier
-                                .padding(top = 11.dp, start = 30.dp)
-                                .clickable {
-                                    curCategory = 0
-                                }
-                        )
+                            .size(24.dp)
+                            .clickable {
 
-                        Box(
-                            Modifier.weight(1f)
-                        )
-
-                        Text(
-                            text = "채팅방",
-                            color = PURE_WHITE,
-                            modifier = Modifier
-                                .padding(top = 11.dp, end = 30.dp)
-                                .clickable {
-                                    curCategory = 1
-                                }
-                        )
-                    }
-
-
+                            }
+                    )
                 }
             }
         }
-        Spacer(modifier = Modifier
-            .fillMaxWidth()
-            .height(5.dp)
-            .background(
-                brush = Brush.horizontalGradient(
-                    colors = listOf(Color(0Xff792e4f), Color(0Xffa03f6a), Color(0Xff792e4f))
-                )
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp)
+        ) {
+            Text(
+                text = "게시물", fontSize = 12.sp, modifier = Modifier
+                    .weight(1f)
+                    .clickable {
+                        curCategory = 0
+                    },
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                color = if (curCategory == 0) POINT else Color.Gray
             )
+            Text(
+                text = "채팅방", fontSize = 12.sp, modifier = Modifier
+                    .weight(1f)
+                    .clickable {
+                        curCategory = 1
+                    },
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                color = if (curCategory == 1) POINT else Color.Gray
+            )
+        }
+
+        Spacer(
+            modifier = Modifier
+                .height(5.dp)
+                .fillMaxWidth()
+                .background(Gray600)
         )
 
-        if(curCategory ==0){
+        if (curCategory == 0) {
             GroupArticles()
-        }else{
+        } else {
             GroupChat()
         }
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun GroupChat() {
+
+    var sendingMessage by remember {
+        mutableStateOf("")
+    }
+    val messages = remember {
+        mutableStateListOf<ChatMessage>()
+    }
+    LaunchedEffect(key1 = Unit) {
+        databaseReference?.addChildEventListener(object : ChildEventListener {
+
+            // 새로운 자식이 추가 됬을 때
+            override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
+                val chatMessage: ChatMessage =
+                    dataSnapshot.getValue(ChatMessage::class.java) ?: return
+                messages.add(chatMessage)
+            }
+
+            override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {}
+            override fun onChildRemoved(dataSnapshot: DataSnapshot) {}
+            override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {}
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -210,81 +269,113 @@ fun GroupChat() {
             Modifier.weight(1f)
         )
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(bottom = 15.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(41.dp)
-                    .clip(RoundedCornerShape(80))
-                    .background(PURE_WHITE)
-            )
-
-            Column(
-                modifier = Modifier
-                    .padding(start = 10.dp, bottom = 5.dp)
-            ) {
-                Text(
-                    text = "말고3",
-                    color = PURE_WHITE,
-                    fontSize = 12.sp
-                )
-
-                Box(
-                    modifier = Modifier
-                        .border(
-                            width = 1.dp,
-                            color = POINT,
-                            shape = RoundedCornerShape(20),
-                        )
-                        .wrapContentWidth()
-                        .height(32.dp),
-                ){
-                    Text (
-                        text = "네 이따가 저녁도 먹으면 좋을 것 같아요",
-                        color = PURE_WHITE,
-                        fontSize = 12.sp,
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .padding(horizontal = 10.dp)
-                    )
-                }
+        messages.forEach {
+            if (it.name == "Me") {
+                MyMessage(it)
+            } else {
+                OpponentMessage(it)
             }
-            Text (
-                text = "오전 11:13",
-                color = PURE_WHITE,
-                fontSize = 6.sp,
-                modifier = Modifier
-                    .align(Alignment.Bottom)
-                    .padding(start = 5.dp)
-            )
         }
 
-
-
-        Row(
+        CustomTextField(
+            value = sendingMessage,
+            onvalueChanged = { sendingMessage = it },
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(bottom = 15.dp)
-                .padding(end = 10.dp)
+                .height(69.dp),
+            placeholderText = "메시지를 입력하세요.", trailingIcon = {
+                Text(
+                    text = "전송",
+                    color = Color.White,
+                    fontSize = 12.sp,
+                    modifier = Modifier.clickable {
+                        sendMessage(sendingMessage)
+                        sendingMessage = ""
+                    }
+                )
+            },
+            deleteButtonVisibe = false
+        )
+    }
+}
+
+@Composable
+private fun MyMessage(chatMessage: ChatMessage) {
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(bottom = 15.dp)
+            .padding(end = 10.dp)
+    ) {
+
+        Box(
+            Modifier.weight(1f)
+        )
+
+        val inputDate = chatMessage.uploadDate ?: ""
+        val formatter = DateTimeFormatter.ofPattern("MM/dd - HH시 mm분")
+        val dateTime = LocalDateTime.parse(inputDate)
+        val formattedDate = dateTime.format(formatter)
+        Text(
+            text = formattedDate,
+            color = PURE_WHITE,
+            fontSize = 7.sp,
+            modifier = Modifier
+                .align(Alignment.Bottom)
+                .padding(end = 5.dp, bottom = 5.dp)
+        )
+        Box(
+            modifier = Modifier
+                .border(
+                    width = 1.dp,
+                    color = POINT,
+                    shape = RoundedCornerShape(20),
+                )
+                .wrapContentWidth()
+                .height(32.dp)
         ) {
-
-            Box(
-                Modifier.weight(1f)
-            )
-
-            Text (
-                text = "오전 12:03",
+            Text(
+                text = chatMessage.message ?: "-",
                 color = PURE_WHITE,
-                fontSize = 6.sp,
+                fontSize = 12.sp,
                 modifier = Modifier
-                    .align(Alignment.Bottom)
-                    .padding(end = 5.dp)
+                    .align(Alignment.Center)
+                    .padding(horizontal = 10.dp)
             )
+        }
+    }
+}
+
+@Composable
+private fun OpponentMessage(chatMessage: ChatMessage) {
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(bottom = 15.dp)
+    ) {
+        Image(
+            painter = painterResource(id = profileImages.random()),
+            contentDescription = null,
+            modifier = Modifier
+                .size(41.dp)
+                .clip(RoundedCornerShape(80))
+                .background(PURE_WHITE)
+        )
+
+        Column(
+            modifier = Modifier
+                .padding(start = 10.dp, bottom = 5.dp)
+        ) {
+            Text(
+                text = chatMessage.name ?: "익명의 말코",
+                color = PURE_WHITE,
+                fontSize = 12.sp
+            )
+
             Box(
                 modifier = Modifier
                     .border(
@@ -293,10 +384,10 @@ fun GroupChat() {
                         shape = RoundedCornerShape(20),
                     )
                     .wrapContentWidth()
-                    .height(32.dp)
-            ){
-                Text (
-                    text = "네 이따 뵐게요\uD83D\uDE01",
+                    .height(32.dp),
+            ) {
+                Text(
+                    text = chatMessage.message ?: "-",
                     color = PURE_WHITE,
                     fontSize = 12.sp,
                     modifier = Modifier
@@ -304,47 +395,36 @@ fun GroupChat() {
                         .padding(horizontal = 10.dp)
                 )
             }
-
         }
 
-
-
-
-
-
-
-
-
-        Row(
+        val inputDate = chatMessage.uploadDate ?: ""
+        val formatter = DateTimeFormatter.ofPattern("MM/dd - HH시 mm분")
+        val dateTime = LocalDateTime.parse(inputDate)
+        val formattedDate = dateTime.format(formatter)
+        Text(
+            text = formattedDate,
+            color = PURE_WHITE,
+            fontSize = 6.sp,
             modifier = Modifier
-                .wrapContentSize()
-                .padding(bottom = 6.dp)
-        ) {
-            Text (
-                text = "메시지를 입력하세요",
-                color = PURE_WHITE,
-                fontSize = 12.sp
-            )
+                .align(Alignment.Bottom)
+                .padding(start = 5.dp, bottom = 5.dp)
 
-            Box(
-                Modifier.weight(1f)
-            )
-
-            Text (
-                text = "전송",
-                color = PURE_WHITE,
-                fontSize = 12.sp
-            )
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .background(PURE_WHITE)
         )
     }
 }
+
+@RequiresApi(Build.VERSION_CODES.O)
+private fun sendMessage(text: String) {
+    if (text.isNotBlank()) {
+        val chatMessage = ChatMessage(
+            message = text.trim(),
+            name = "Me",
+            uploadDate = LocalDateTime.now().toString()
+        )
+        databaseReference?.push()?.setValue(chatMessage)
+    }
+}
+
 
 @Composable
 private fun GroupArticles() {
@@ -357,27 +437,30 @@ private fun GroupArticles() {
             text = "참여자",
             color = PURE_WHITE,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .padding(top = 16.dp, start = 30.dp)
+            modifier = Modifier.padding(top = 20.dp, start = 30.dp)
         )
 
         LazyRow(
             modifier = Modifier
-                .padding(top = 23.dp, start = 30.dp)
+                .padding(top = 20.dp, start = 30.dp, end = 30.dp)
                 .fillMaxWidth()
                 .wrapContentHeight(),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(20) {
                 Column {
-                    Box(
+                    Image(
+                        painter = painterResource(id = Constants.profileImages[it % 9]),
+                        contentScale = ContentScale.Crop,
+                        contentDescription = null,
                         modifier = Modifier
                             .size(56.dp)
                             .clip(RoundedCornerShape(80))
-                            .background(PURE_WHITE)
+                            .border(1.dp, Color.White.copy(alpha = 0.2f), CircleShape)
                     )
+
                     Text(
-                        text = "말고" + it.toString(),
+                        text = "말고$it",
                         fontSize = 12.sp,
                         color = PURE_WHITE,
                         modifier = Modifier
@@ -507,29 +590,37 @@ private fun GroupArticles() {
                 }
 
             }
-
-
-            /*LazyHorizontalGrid(
-                    modifier = Modifier
-                        .padding(top = 11.dp, start = 30.dp, end = 30.dp),
-                    rows = GridCells.Fixed(2),
-                    horizontalArrangement = Arrangement.spacedBy(18.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    content = {
-                        items(4) {
-                            Image(
-                                painter = painterResource(id = R.drawable.temp_img),
-                                contentDescription = null,
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                            )
-                        }
-                    }
-                )*/
-
-
         }
     }
 }
 
+
+enum class Keyboard {
+    Opened, Closed
+}
+
+@Composable
+fun keyboardAsState(): State<Keyboard> {
+    val keyboardState = remember { mutableStateOf(Keyboard.Closed) }
+    val view = LocalView.current
+    DisposableEffect(view) {
+        val onGlobalListener = ViewTreeObserver.OnGlobalLayoutListener {
+            val rect = Rect()
+            view.getWindowVisibleDisplayFrame(rect)
+            val screenHeight = view.rootView.height
+            val keypadHeight = screenHeight - rect.bottom
+            keyboardState.value = if (keypadHeight > screenHeight * 0.15) {
+                Keyboard.Opened
+            } else {
+                Keyboard.Closed
+            }
+        }
+        view.viewTreeObserver.addOnGlobalLayoutListener(onGlobalListener)
+
+        onDispose {
+            view.viewTreeObserver.removeOnGlobalLayoutListener(onGlobalListener)
+        }
+    }
+
+    return keyboardState
+}

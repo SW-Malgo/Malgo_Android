@@ -14,12 +14,21 @@ import com.example.swmalgo.ui.components.ManageBottomBarState
 import com.example.swmalgo.ui.components.rememberApplicationState
 import com.example.swmalgo.ui.components.RootNavHost
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    companion object {
+        var databaseReference: DatabaseReference? = null
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
+        databaseReference = firebaseDatabase.getReference("Chat")
+
         setContent {
             SwMalgoTheme {
                 Surface(
