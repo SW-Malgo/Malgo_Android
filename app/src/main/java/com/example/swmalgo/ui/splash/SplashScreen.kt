@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.example.swmalgo.R
 import com.example.swmalgo.domain.model.ApplicationState
-import com.example.swmalgo.domain.rememberApplicationState
+import com.example.swmalgo.ui.components.rememberApplicationState
 import com.example.swmalgo.utils.Constants.MAIN_GRAPH
 import com.example.swmalgo.utils.Constants.SPLASH_ROUTE
 import kotlinx.coroutines.delay
