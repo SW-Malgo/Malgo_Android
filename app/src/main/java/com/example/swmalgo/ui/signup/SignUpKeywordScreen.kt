@@ -1,4 +1,4 @@
-package com.example.swmalgo.ui.keyword
+package com.example.swmalgo.ui.signup
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,14 +20,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.example.swmalgo.R
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
@@ -37,7 +33,7 @@ import com.example.swmalgo.ui.theme.PURE_WHITE
 
 @Preview
 @Composable
-fun KeywordScreen() {
+fun SignUpKeywordScreen() {
     Box(
         modifier = Modifier
             .background(MAIN_BACKGROUND)
@@ -55,9 +51,7 @@ fun KeywordScreen() {
                     append("직장인들의 은밀한 취미생활 malgo!")
                 }
             },
-//            style = TextStyle(lineHeight = 1.5.em),
             fontSize = 19.sp,
-//            fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .padding(top = 146.dp)
         )
@@ -69,7 +63,6 @@ fun KeywordScreen() {
                             "선택해주세요")
                 }
             },
-//            style = TextStyle(lineHeight = 1.5.em),
             fontSize = 39.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier

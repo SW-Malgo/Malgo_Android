@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Button
@@ -34,7 +35,7 @@ import com.example.swmalgo.utils.Constants.SIGNUP_EMAIL_VALIDATE_ROUTE
 
 
 @Composable
-fun SignUpScreen(
+fun SignUpEmailScreen(
     appState: ApplicationState
 ) {
 
@@ -50,48 +51,53 @@ fun SignUpScreen(
         Log.i("dlgocks1", emailValid.toString())
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MAIN_BACKGROUND)
-            .padding(horizontal = 30.dp)
-    ) {
-        Text(
-            text = "환영합니다!",
-            fontSize = 28.sp,
-            fontWeight = FontWeight.Bold,
+    Column(modifier = Modifier.fillMaxSize()) {
+        Column(
             modifier = Modifier
-                .padding(top = 60.dp),
-            color = Color.White
-        )
+                .fillMaxSize()
+                .imePadding()
+                .background(MAIN_BACKGROUND)
+                .weight(1f)
+                .padding(horizontal = 30.dp)
+        ) {
+            Text(
+                text = "환영합니다!",
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(top = 60.dp),
+                color = Color.White
+            )
 
-        Text(
-            text = "회사 이메일을 적어주세요.",
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Normal,
-            color = Color.White,
-            modifier = Modifier
-                .padding(top = 70.dp)
-        )
-        CustomTextField(
-            value = email,
-            onvalueChanged = { email = it },
-            modifier = Modifier
-                .padding(top = 30.dp)
-                .fillMaxWidth()
-                .height(69.dp),
-            placeholderText = "회사 이메일",
-            onErrorState = !emailValid,
-            errorMessage = "올바른 이메일을 입력해 주세요.",
-            keyboardActions = KeyboardActions(onDone = {
-                if (emailValid) {
-                    appState.navigate(SIGNUP_EMAIL_VALIDATE_ROUTE)
-                }
-            })
-        )
+            Text(
+                text = "회사 이메일을 적어주세요.",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color.White,
+                modifier = Modifier
+                    .padding(top = 70.dp)
+            )
+            CustomTextField(
+                value = email,
+                onvalueChanged = { email = it },
+                modifier = Modifier
+                    .padding(top = 30.dp)
+                    .fillMaxWidth()
+                    .height(69.dp),
+                placeholderText = "회사 이메일",
+                onErrorState = !emailValid,
+                errorMessage = "올바른 이메일을 입력해 주세요.",
+                keyboardActions = KeyboardActions(onDone = {
+                    if (emailValid) {
+                        appState.navigate(SIGNUP_EMAIL_VALIDATE_ROUTE)
+                    }
+                })
+            )
 
-        Box(modifier = Modifier.weight(1f))
+            Box(modifier = Modifier.weight(1f))
 
+
+        }
         Button(
             onClick = {
                 // 구현 X
@@ -99,8 +105,8 @@ fun SignUpScreen(
             },
             shape = RectangleShape,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 60.dp), colors = ButtonDefaults.buttonColors(POINT)
+                .fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(POINT)
         ) {
             Text(
                 text = "인증번호 전송",
@@ -110,8 +116,8 @@ fun SignUpScreen(
                 modifier = Modifier.padding(3.dp)
             )
         }
-
     }
+
 }
 
 fun isValidEmail(target: CharSequence?): Boolean {

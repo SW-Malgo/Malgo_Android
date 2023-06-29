@@ -6,7 +6,7 @@ import androidx.navigation.navigation
 import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.signup.SignUpEmailVerifyScreen
 import com.example.swmalgo.ui.signup.SignUpPasswordScreen
-import com.example.swmalgo.ui.signup.SignUpScreen
+import com.example.swmalgo.ui.signup.SignUpEmailScreen
 import com.example.swmalgo.utils.Constants.SIGNUP_EMAIL_ROUTE
 import com.example.swmalgo.utils.Constants.SIGNUP_EMAIL_VALIDATE_ROUTE
 import com.example.swmalgo.utils.Constants.SIGNUP_GRAPH
@@ -19,7 +19,7 @@ fun NavGraphBuilder.signUpGraph(
 
     navigation(startDestination = SIGNUP_EMAIL_ROUTE, route = SIGNUP_GRAPH) {
         composable(SIGNUP_EMAIL_ROUTE) {
-            SignUpScreen(appState)
+            SignUpEmailScreen(appState)
         }
 
         composable(SIGNUP_EMAIL_VALIDATE_ROUTE) {
