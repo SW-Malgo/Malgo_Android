@@ -29,11 +29,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImagePainter.State.Empty.painter
 import com.example.swmalgo.R
+import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
+import com.example.swmalgo.ui.theme.PURE_WHITE
+import com.google.accompanist.pager.HorizontalPagerIndicator
 
 @Preview(showBackground = true)
 @Composable
@@ -42,6 +49,7 @@ fun HomeScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(MAIN_BACKGROUND)
     ) {
 
     Column(
@@ -54,7 +62,11 @@ fun HomeScreen() {
                 .padding(top = 79.dp, start = 30.dp, end = 30.dp)
         ) {
             Text(
-                text = "OOO님 반가워요!",
+                buildAnnotatedString {
+                    withStyle(style = SpanStyle(color = PURE_WHITE)) {
+                        append("5382번째 말고님, 환영해요!")
+                    }
+                },
                 fontSize = 15.sp
             )
 
@@ -67,7 +79,7 @@ fun HomeScreen() {
                 contentDescription = null,
                 contentScale = ContentScale.Fit, // ScaleType
                 modifier = Modifier
-                    .size(width = 35.dp, height = 35.dp)
+                    .size(width = 20.dp, height = 20.dp)
             )
         }
 
@@ -75,9 +87,60 @@ fun HomeScreen() {
             modifier = Modifier
                 .padding(top = 19.dp)
                 .fillMaxWidth()
-                .height(140.dp)
-                .background(Color.Red)
-        )
+                .height(235.dp)
+        ){
+            Image(
+                painter = painterResource(id = R.drawable.temp_img),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxSize()
+            )
+
+           
+
+            ActionsRow(
+                pagerState = pagerState,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xcc000000))
+            ){
+                Column (
+                    modifier = Modifier
+                        .fillMaxSize() )
+                {
+
+                    Text(
+                        buildAnnotatedString {
+                            withStyle(style = SpanStyle(color = PURE_WHITE)) {
+                                append("SAMSUNG & Malco!")
+                            }
+                        },
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .padding(start = 30.dp, top = 70.dp)
+                    )
+                    Text(
+                        buildAnnotatedString {
+                            withStyle(style = SpanStyle(color = PURE_WHITE)) {
+                                append("공통 관심사와 취미를 통한 동료 연결 플랫폼\n")
+                            }
+                            withStyle(style = SpanStyle(color = PURE_WHITE)) {
+                                append("삼성과 말코가 함께 합니다!")
+                            }
+                        },
+                        fontSize = 10.sp,
+                        modifier = Modifier
+                            .padding(start = 30.dp, top = 12.dp)
+                    )
+                }
+            }
+        }
 
 
 

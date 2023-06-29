@@ -31,6 +31,7 @@ import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.components.rememberApplicationState
 import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.ui.theme.PURE_WHITE
+import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.utils.Constants.MAIN_GRAPH
 import com.example.swmalgo.utils.Constants.SPLASH_ROUTE
 import kotlinx.coroutines.delay
@@ -50,7 +51,8 @@ fun SplashScreen(
             }
         }
     }
-
+    appState.uiController.setStatusBarColor(MAIN_BACKGROUND)
+    appState.uiController.setSystemBarsColor(MAIN_BACKGROUND)
     Image(
         painter = painterResource(id = R.drawable.splacsh_screen),
         contentDescription = null,
@@ -95,29 +97,30 @@ fun SplashScreen(
                 .padding(top = 12.dp)
         )
 
-        Text(buildAnnotatedString {
-            withStyle(style = SpanStyle(color = PURE_WHITE)) {
-                append("공통 ")
-            }
-            withStyle(style = SpanStyle(color = POINT)) {
-                append("관심사")
-            }
-            withStyle(style = SpanStyle(color = PURE_WHITE)) {
-                append("와 ")
-            }
-            withStyle(style = SpanStyle(color = POINT)) {
-                append("취미")
-            }
-            withStyle(style = SpanStyle(color = PURE_WHITE)) {
-                append("를 통한\n")
-            }
-            withStyle(style = SpanStyle(color = POINT)) {
-                append("동료 ")
-            }
-            withStyle(style = SpanStyle(color = PURE_WHITE)) {
-                append("연결 플랫폼, 말고!")
-            }
-        },
+        Text(
+            buildAnnotatedString {
+                withStyle(style = SpanStyle(color = Color(0xffffffff))) {
+                    append("공통 ")
+                }
+                withStyle(style = SpanStyle(color = Color(0xff00ff4e))) {
+                    append("관심사")
+                }
+                withStyle(style = SpanStyle(color = Color(0xffffffff))) {
+                    append("와 ")
+                }
+                withStyle(style = SpanStyle(color = Color(0xff00ff4e))) {
+                    append("취미")
+                }
+                withStyle(style = SpanStyle(color = Color(0xffffffff))) {
+                    append("를 통한\n")
+                }
+                withStyle(style = SpanStyle(color = Color(0xff00ff4e))) {
+                    append("동료 ")
+                }
+                withStyle(style = SpanStyle(color = Color(0xffffffff))) {
+                    append("연결 플랫폼, 말고!")
+                }
+            },
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
