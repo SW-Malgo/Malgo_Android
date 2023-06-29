@@ -70,8 +70,9 @@ fun GroupScreen() {
                     Text(text = "모든 동아리", fontSize = 20.sp, color = PURE_WHITE)
                     Text(
                         text = "우리 회사 내에 모든 동아리를 볼 수 있어요",
-                        modifier = Modifier.padding(top = 5.dp),
-                        color = PURE_WHITE
+                        modifier = Modifier.padding(top = 0.dp),
+                        color = PURE_WHITE,
+                        fontSize = 12.sp
                     )
                 }
 
