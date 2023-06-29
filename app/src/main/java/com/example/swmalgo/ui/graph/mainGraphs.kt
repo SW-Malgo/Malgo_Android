@@ -5,11 +5,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.components.rememberNavControllerBackEntry
+import com.example.swmalgo.ui.detailpage.DetailPageBeforeJoinScreen
 import com.example.swmalgo.ui.group.GroupScreen
 import com.example.swmalgo.ui.home.HomeInterestedScreen
 import com.example.swmalgo.ui.home.HomeScreen
 import com.example.swmalgo.ui.mypage.MypageScreen
 import com.example.swmalgo.ui.uploadgroup.UploadGroupScreen
+import com.example.swmalgo.utils.Constants.DETAIL_PAGE_AFTER_JOIN_ROUTE
+import com.example.swmalgo.utils.Constants.DETAIL_PAGE_BEFORE_JOIN_ROUTE
 import com.example.swmalgo.utils.Constants.UPLOAD_GROUP_ROUTE
 import com.example.swmalgo.utils.Constants.HOME_INTERESTED_ROUTE
 import com.example.swmalgo.utils.Constants.MAIN_GRAPH
@@ -33,6 +36,12 @@ fun NavGraphBuilder.mainGraph(
         }
         composable(UPLOAD_GROUP_ROUTE) {
             UploadGroupScreen(appState)
+        }
+        composable(DETAIL_PAGE_BEFORE_JOIN_ROUTE) {
+            DetailPageBeforeJoinScreen()
+        }
+        composable(DETAIL_PAGE_AFTER_JOIN_ROUTE) {
+            DetailPageBeforeJoinScreen()
         }
 
     }

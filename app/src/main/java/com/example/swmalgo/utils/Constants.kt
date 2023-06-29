@@ -1,5 +1,7 @@
 package com.example.swmalgo.utils
 
+import com.example.swmalgo.R
+
 object Constants {
 
     // Routes
@@ -14,11 +16,26 @@ object Constants {
     const val SIGNUP_KEYWORD_ROUTE = "signup_keyword-route"
     const val HOME_INTERESTED_ROUTE = "home-interested-route"
     const val UPLOAD_GROUP_ROUTE = "group-upload-route"
+    const val DETAIL_PAGE_BEFORE_JOIN_ROUTE = "detail-page-before-join-route"
+    const val DETAIL_PAGE_AFTER_JOIN_ROUTE = "detail-page-after-join-route"
 
     // Graphs
     const val MAIN_GRAPH = "main-graph"
     const val LOGIN_GRAPH = "login-graph"
     const val SIGNUP_GRAPH = "signup-grarph"
+
+
+    val profileImages = listOf(
+        R.drawable.img_profile_1,
+        R.drawable.img_profile_2,
+        R.drawable.img_profile_3,
+        R.drawable.img_profile_4,
+        R.drawable.img_profile_5,
+        R.drawable.img_profile_6,
+        R.drawable.img_profile_7,
+        R.drawable.img_profile_8,
+        R.drawable.img_profile_9,
+    )
 
     const val BASE_URL = "https://jsonplaceholder.typicode.com/"
 }

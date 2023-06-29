@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalGlideComposeApi::class)
+@file:OptIn(ExperimentalGlideComposeApi::class, ExperimentalGlideComposeApi::class)
 
 package com.example.swmalgo.ui.mypage
 
@@ -61,25 +61,19 @@ fun MypageScreen() {
         Box(
             modifier = Modifier
         ) {
-//            GlideImage(
-//                model = R.drawable.splacsh_screen,
-//                contentDescription = null,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .aspectRatio(1.4f),
-//                contentScale = ContentScale.Crop
-//            )
-            Box(
+            GlideImage(
+                model = R.drawable.img_mypage_temp,
+                contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(1.4f)
-                    .background(White800)
+                    .aspectRatio(1.4f),
+                contentScale = ContentScale.Crop
             )
             Column {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .aspectRatio(1.7f)
+                        .aspectRatio(1.8f)
                 )
                 Column(
                     modifier = Modifier
@@ -110,11 +104,9 @@ fun MypageScreen() {
                     )
                     Text(
                         text = "내가 보유한 동아리", color = Color.White, fontSize = 14.sp,
-                        modifier = Modifier.padding(top=40.dp)
+                        modifier = Modifier.padding(top = 40.dp)
                     )
                 }
-
-
 
                 Spacer(
                     modifier = Modifier

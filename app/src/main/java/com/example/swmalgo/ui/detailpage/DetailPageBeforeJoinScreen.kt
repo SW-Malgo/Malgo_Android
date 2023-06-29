@@ -2,6 +2,7 @@ package com.example.swmalgo.ui.detailpage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
@@ -37,8 +39,8 @@ import com.example.swmalgo.R
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.ui.theme.PURE_WHITE
+import com.example.swmalgo.utils.Constants.profileImages
 
-@Preview(showBackground = true)
 @Composable
 fun DetailPageBeforeJoinScreen() {
     Column(
@@ -127,14 +129,15 @@ fun DetailPageBeforeJoinScreen() {
                 }
             }
         }
-        Spacer(modifier = Modifier
-            .fillMaxWidth()
-            .height(5.dp)
-            .background(
-                brush = Brush.horizontalGradient(
-                    colors = listOf(Color(0Xff792e4f), Color(0Xffa03f6a), Color(0Xff792e4f))
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(5.dp)
+                .background(
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(Color(0Xff792e4f), Color(0Xffa03f6a), Color(0Xff792e4f))
+                    )
                 )
-            )
         )
 
         Column(
@@ -159,12 +162,16 @@ fun DetailPageBeforeJoinScreen() {
             ) {
                 items(20) {
                     Column {
-                        Box(
+                        Image(
+                            painter = painterResource(id = profileImages[it % 9]),
+                            contentScale = ContentScale.Crop,
+                            contentDescription = null,
                             modifier = Modifier
                                 .size(56.dp)
                                 .clip(RoundedCornerShape(80))
-                                .background(PURE_WHITE)
+                                .border(1.dp, Color.White.copy(alpha = 0.2f), CircleShape)
                         )
+
                         Text(
                             text = "말고" + it.toString(),
                             fontSize = 12.sp,
@@ -244,8 +251,8 @@ fun DetailPageBeforeJoinScreen() {
                         .wrapContentWidth()
                         .wrapContentHeight()
                         .padding(top = 11.dp)
-                ){
-                    Row (
+                ) {
+                    Row(
                         modifier = Modifier
                             .wrapContentWidth()
                             .wrapContentHeight()
@@ -269,7 +276,7 @@ fun DetailPageBeforeJoinScreen() {
                                 .height(122.dp)
                         )
                     }
-                    Row (
+                    Row(
                         modifier = Modifier
                             .wrapContentWidth()
                             .wrapContentHeight()
@@ -316,7 +323,6 @@ fun DetailPageBeforeJoinScreen() {
                         }
                     }
                 )*/
-
 
 
             }

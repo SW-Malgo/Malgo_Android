@@ -35,6 +35,8 @@ import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.ui.theme.White800
+import com.example.swmalgo.utils.Constants
+import com.example.swmalgo.utils.Constants.DETAIL_PAGE_BEFORE_JOIN_ROUTE
 import com.google.accompanist.pager.HorizontalPagerIndicator
 
 @Composable
@@ -75,7 +77,12 @@ fun HomeInterestedScreen(
         ) {
 
             items(listOf("ㅇㅇ모임", "ㄴㄴ모임", "ㅎㅎ모임", "ㅁㅁ모임")) {
-                InterrestedItemDetail(it)
+                InterrestedItemDetail(
+                    it,
+                    navigateToDetail = {
+                        appState.navigate(DETAIL_PAGE_BEFORE_JOIN_ROUTE)
+                    }
+                )
             }
         }
     }
@@ -84,7 +91,10 @@ fun HomeInterestedScreen(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun InterrestedItemDetail(title: String) {
+fun InterrestedItemDetail(
+    title: String,
+    navigateToDetail: () -> Unit
+) {
 
     val pagerState = rememberPagerState(
         initialPage = 0,
@@ -103,6 +113,9 @@ fun InterrestedItemDetail(title: String) {
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1f)
+                .clickable {
+                    navigateToDetail()
+                }
         ) {
             HorizontalPager(state = pagerState) {
                 Image(
