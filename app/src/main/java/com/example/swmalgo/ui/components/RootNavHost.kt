@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarHost
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -57,4 +58,13 @@ fun RootNavHost(
             BottomBar(appState)
         }
     }
+}
+
+@Composable
+fun rememberNavControllerBackEntry(
+    entry: NavBackStackEntry,
+    appState: ApplicationState,
+    graph: String,
+) = remember(entry) {
+    appState.navController.getBackStackEntry(graph)
 }

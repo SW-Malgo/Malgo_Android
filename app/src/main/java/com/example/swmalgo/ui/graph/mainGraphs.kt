@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.swmalgo.domain.model.ApplicationState
+import com.example.swmalgo.ui.components.rememberNavControllerBackEntry
 import com.example.swmalgo.ui.group.GroupScreen
 import com.example.swmalgo.ui.home.HomeInterestedScreen
 import com.example.swmalgo.ui.home.HomeScreen
@@ -18,7 +19,7 @@ fun NavGraphBuilder.mainGraph(
     appState: ApplicationState,
 ) {
     navigation(startDestination = MainScreens.HOME.route, route = MAIN_GRAPH) {
-        composable(MainScreens.HOME.route) { entry ->
+        composable(MainScreens.HOME.route) {
             HomeScreen(appState)
         }
         composable(MainScreens.MYPAGE.route) { entry ->

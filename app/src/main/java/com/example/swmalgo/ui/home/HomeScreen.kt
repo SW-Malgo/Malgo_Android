@@ -57,11 +57,15 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 @Composable
 fun HomeScreen(appState: ApplicationState = rememberApplicationState()) {
 
+    val tempImages = listOf(
+        R.drawable.img_main_temp1,
+        R.drawable.img_main_temp2
+    )
     val pagerState = rememberPagerState(
         initialPage = 0,
         initialPageOffsetFraction = 0f
     ) {
-        3
+        tempImages.size
     }
     val itemList: List<List<String>> = listOf(
         listOf("음악을 사랑하는 모임", "#음악 #듣기 #즐겨요"),
@@ -116,55 +120,53 @@ fun HomeScreen(appState: ApplicationState = rememberApplicationState()) {
                             .background(Color(0xcc000000))
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.temp_img),
+                            painter = painterResource(id = tempImages[it]),
                             contentDescription = null,
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .fillMaxSize()
                         )
                         // 좌에서 오른쪽 검정색, 투명색 그라디언트가 있는 박스
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth(0.7f)
-                                .fillMaxHeight()
-                                .align(Alignment.CenterStart)
-                                .background(
-                                    brush = Brush.horizontalGradient(
-                                        colors = listOf(
-                                            Color(0xFF000000),
-                                            Color.Transparent
-                                        ),
-                                    )
-                                )
-                        )
-
-
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(start = 30.dp)
-                        ) {
-                            Text(
-                                text = "SAMSUNG & Malco!",
-                                color = PURE_WHITE,
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier
-                                    .padding(top = 70.dp)
-                            )
-                            Text(
-                                text = "공통 관심사와 취미를 통한 동료 연결 플랫폼\n" + "삼성과 말코가 함께 합니다!",
-                                color = PURE_WHITE,
-                                fontSize = 12.sp,
-                                modifier = Modifier
-                                    .padding(top = 12.dp)
-                            )
-                        }
+//                        Box(
+//                            modifier = Modifier
+//                                .fillMaxWidth(0.7f)
+//                                .fillMaxHeight()
+//                                .align(Alignment.CenterStart)
+//                                .background(
+//                                    brush = Brush.horizontalGradient(
+//                                        colors = listOf(
+//                                            Color(0xFF000000),
+//                                            Color.Transparent
+//                                        ),
+//                                    )
+//                                )
+//                        )
+//                        Column(
+//                            modifier = Modifier
+//                                .fillMaxSize()
+//                                .padding(start = 30.dp)
+//                        ) {
+//                            Text(
+//                                text = "SAMSUNG & Malco!",
+//                                color = PURE_WHITE,
+//                                fontSize = 24.sp,
+//                                fontWeight = FontWeight.Bold,
+//                                modifier = Modifier
+//                                    .padding(top = 70.dp)
+//                            )
+//                            Text(
+//                                text = "공통 관심사와 취미를 통한 동료 연결 플랫폼\n" + "삼성과 말코가 함께 합니다!",
+//                                color = PURE_WHITE,
+//                                fontSize = 12.sp,
+//                                modifier = Modifier
+//                                    .padding(top = 12.dp)
+//                            )
+//                        }
                     }
                 }
                 HorizontalPagerIndicator(
                     pagerState = pagerState,
-                    pageCount = 3,
+                    pageCount = tempImages.size,
                     activeColor = Color.White,
                     inactiveColor = Color.White.copy(alpha = 0.3f),
                     modifier = Modifier

@@ -23,18 +23,18 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.components.CustomTextField
+import com.example.swmalgo.ui.theme.Gray300
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.utils.Constants.SIGNUP_PASSWORD_ROUTE
 
 @Composable
-fun SignUpEmailVerifyScreen(appState: ApplicationState) {
-    var certificateNumber by remember {
-        mutableStateOf("")
-    }
+fun SignUpEmailVerifyScreen(appState: ApplicationState, viewModel: SignUpViewModel) {
 
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -64,10 +64,10 @@ fun SignUpEmailVerifyScreen(appState: ApplicationState) {
             )
 
             CustomTextField(
-                value = certificateNumber,
+                value = uiState.validateCode,
                 onvalueChanged = {
                     if (it.length < 7) {
-                        certificateNumber = it
+                        viewModel.updateValidateCode(it)
                     }
                 },
                 modifier = Modifier
@@ -81,9 +81,9 @@ fun SignUpEmailVerifyScreen(appState: ApplicationState) {
             )
 
             Box(modifier = Modifier.weight(1f))
-
-
         }
+
+        val enable = uiState.validateCode.length == 6
         Button(
             onClick = {
                 appState.navigate(SIGNUP_PASSWORD_ROUTE)
@@ -91,7 +91,7 @@ fun SignUpEmailVerifyScreen(appState: ApplicationState) {
             shape = RectangleShape,
             modifier = Modifier
                 .fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(POINT)
+            colors = ButtonDefaults.buttonColors(if (enable) POINT else Gray300)
         ) {
             Text(
                 text = "이메일 인증",

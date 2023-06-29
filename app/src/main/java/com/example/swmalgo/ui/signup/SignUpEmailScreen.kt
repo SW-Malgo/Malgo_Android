@@ -27,8 +27,10 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.components.CustomTextField
+import com.example.swmalgo.ui.theme.Gray300
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.utils.Constants.SIGNUP_EMAIL_VALIDATE_ROUTE
@@ -36,19 +38,17 @@ import com.example.swmalgo.utils.Constants.SIGNUP_EMAIL_VALIDATE_ROUTE
 
 @Composable
 fun SignUpEmailScreen(
-    appState: ApplicationState
+    appState: ApplicationState,
+    viewModel: SignUpViewModel
 ) {
 
-    var email by remember {
-        mutableStateOf("")
-    }
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var emailValid by remember {
-        mutableStateOf(isValidEmail(email))
+        mutableStateOf(isValidEmail(uiState.email))
     }
 
-    LaunchedEffect(key1 = email) {
-        emailValid = isValidEmail(email)
-        Log.i("dlgocks1", emailValid.toString())
+    LaunchedEffect(key1 = uiState.email) {
+        emailValid = isValidEmail(uiState.email)
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -78,8 +78,8 @@ fun SignUpEmailScreen(
                     .padding(top = 70.dp)
             )
             CustomTextField(
-                value = email,
-                onvalueChanged = { email = it },
+                value = uiState.email,
+                onvalueChanged = viewModel::updateEmail,
                 modifier = Modifier
                     .padding(top = 30.dp)
                     .fillMaxWidth()
@@ -98,6 +98,7 @@ fun SignUpEmailScreen(
 
 
         }
+        val enable = uiState.email.isNotEmpty() && emailValid
         Button(
             onClick = {
                 // 구현 X
@@ -106,7 +107,7 @@ fun SignUpEmailScreen(
             shape = RectangleShape,
             modifier = Modifier
                 .fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(POINT)
+            colors = ButtonDefaults.buttonColors(if (enable) POINT else Gray300)
         ) {
             Text(
                 text = "인증번호 전송",
