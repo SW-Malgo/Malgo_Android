@@ -40,14 +40,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.swmalgo.R
+import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.components.CustomTextField
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.ui.theme.SEARCH_BLUE
+import com.example.swmalgo.utils.Constants.SIGNUP_GRAPH
 
-@Preview
 @Composable
-fun LoginScreen() {
+fun LoginScreen(appState: ApplicationState) {
 
     var email by remember {
         mutableStateOf("")
@@ -156,7 +157,7 @@ fun LoginScreen() {
                 Text(
                     text = "로그인",
                     color = MAIN_BACKGROUND,
-                    fontSize = 20.sp,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(3.dp)
                 )
@@ -197,7 +198,7 @@ fun LoginScreen() {
 
             Row(
                 modifier = Modifier.clickable {
-                    // TODO 회원가입 진행
+                    appState.navigate(SIGNUP_GRAPH)
                 }
             ) {
                 Text(

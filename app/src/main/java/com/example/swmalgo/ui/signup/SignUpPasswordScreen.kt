@@ -1,8 +1,5 @@
 package com.example.swmalgo.ui.signup
 
-import android.text.TextUtils
-import android.util.Log
-import android.util.Patterns
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,31 +21,47 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.components.CustomTextField
+import com.example.swmalgo.ui.signup.SignUpViewModel.Companion.passWordRegex
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.POINT
-import com.example.swmalgo.utils.Constants.SIGNUP_EMAIL_VALIDATE_ROUTE
-
+import com.example.swmalgo.utils.Constants
+import com.example.swmalgo.utils.Constants.MAIN_GRAPH
+import com.example.swmalgo.utils.Constants.SIGNUP_GRAPH
 
 @Composable
-fun SignUpScreen(
-    appState: ApplicationState
-) {
-
-    var email by remember {
+fun SignUpPasswordScreen(appState: ApplicationState) {
+    var password by remember {
         mutableStateOf("")
     }
-    var emailValid by remember {
-        mutableStateOf(isValidEmail(email))
+    var retryPassword by remember {
+        mutableStateOf("")
+    }
+    var passwordVaild by remember {
+        mutableStateOf(true)
+    }
+    var retryPasswordVaild by remember {
+        mutableStateOf(true)
+    }
+    LaunchedEffect(key1 = password) {
+        passwordVaild = if (password.isBlank()) {
+            false
+        } else {
+            !(passWordRegex.matches(password))
+        }
+    }
+    LaunchedEffect(key1 = retryPassword) {
+        retryPasswordVaild = if (retryPassword.isBlank()) {
+            false
+        } else {
+            !(retryPassword == password)
+        }
     }
 
-    LaunchedEffect(key1 = email) {
-        emailValid = isValidEmail(email)
-        Log.i("dlgocks1", emailValid.toString())
-    }
 
     Column(
         modifier = Modifier
@@ -57,7 +70,7 @@ fun SignUpScreen(
             .padding(horizontal = 30.dp)
     ) {
         Text(
-            text = "환영합니다!",
+            text = "회원가입",
             fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
@@ -66,44 +79,67 @@ fun SignUpScreen(
         )
 
         Text(
-            text = "회사 이메일을 적어주세요.",
+            text = "비밀번호를 입력해 주세요.",
             fontSize = 22.sp,
             fontWeight = FontWeight.Normal,
             color = Color.White,
             modifier = Modifier
                 .padding(top = 70.dp)
         )
+
         CustomTextField(
-            value = email,
-            onvalueChanged = { email = it },
+            value = password,
+            onvalueChanged = { password = it },
             modifier = Modifier
                 .padding(top = 30.dp)
                 .fillMaxWidth()
                 .height(69.dp),
-            placeholderText = "회사 이메일",
-            onErrorState = !emailValid,
-            errorMessage = "올바른 이메일을 입력해 주세요.",
+            placeholderText = "비밀번호",
+            onErrorState = passwordVaild,
+            errorMessage = "숫자, 영어, 특수문자를 포함해 8~15글자여야 합니다.",
+            visibleTransform = PasswordVisualTransformation()
+        )
+
+        CustomTextField(
+            value = retryPassword,
+            onvalueChanged = { retryPassword = it },
+            modifier = Modifier
+                .padding(top = 10.dp)
+                .fillMaxWidth()
+                .height(69.dp),
+            placeholderText = "비밀번호 확인",
+            onErrorState = retryPasswordVaild,
+            errorMessage = "비밀번호가 다릅니다.",
             keyboardActions = KeyboardActions(onDone = {
-                if (emailValid) {
-                    appState.navigate(SIGNUP_EMAIL_VALIDATE_ROUTE)
+                if (!passwordVaild) {
+                    appState.navController.navigate(MAIN_GRAPH) {
+                        popUpTo(SIGNUP_GRAPH) {
+                            inclusive = true
+                        }
+                    }
                 }
-            })
+            }),
+            visibleTransform = PasswordVisualTransformation()
         )
 
         Box(modifier = Modifier.weight(1f))
 
         Button(
             onClick = {
-                // 구현 X
-                appState.navigate(SIGNUP_EMAIL_VALIDATE_ROUTE)
+                appState.navController.navigate(MAIN_GRAPH) {
+                    popUpTo(SIGNUP_GRAPH) {
+                        inclusive = true
+                    }
+                }
             },
             shape = RectangleShape,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 60.dp), colors = ButtonDefaults.buttonColors(POINT)
+                .padding(bottom = 60.dp),
+            colors = ButtonDefaults.buttonColors(POINT)
         ) {
             Text(
-                text = "인증번호 전송",
+                text = "회원 가입",
                 color = MAIN_BACKGROUND,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
@@ -111,13 +147,5 @@ fun SignUpScreen(
             )
         }
 
-    }
-}
-
-fun isValidEmail(target: CharSequence?): Boolean {
-    return if (TextUtils.isEmpty(target)) {
-        true
-    } else {
-        Patterns.EMAIL_ADDRESS.matcher(target).matches()
     }
 }

@@ -1,8 +1,5 @@
 package com.example.swmalgo.ui.signup
 
-import android.text.TextUtils
-import android.util.Log
-import android.util.Patterns
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,7 +12,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,24 +26,12 @@ import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.components.CustomTextField
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.POINT
-import com.example.swmalgo.utils.Constants.SIGNUP_EMAIL_VALIDATE_ROUTE
-
+import com.example.swmalgo.utils.Constants.SIGNUP_PASSWORD_ROUTE
 
 @Composable
-fun SignUpScreen(
-    appState: ApplicationState
-) {
-
-    var email by remember {
+fun SignUpEmailVerifyScreen(appState: ApplicationState) {
+    var certificateNumber by remember {
         mutableStateOf("")
-    }
-    var emailValid by remember {
-        mutableStateOf(isValidEmail(email))
-    }
-
-    LaunchedEffect(key1 = email) {
-        emailValid = isValidEmail(email)
-        Log.i("dlgocks1", emailValid.toString())
     }
 
     Column(
@@ -57,7 +41,7 @@ fun SignUpScreen(
             .padding(horizontal = 30.dp)
     ) {
         Text(
-            text = "환영합니다!",
+            text = "회원가입",
             fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
@@ -66,27 +50,28 @@ fun SignUpScreen(
         )
 
         Text(
-            text = "회사 이메일을 적어주세요.",
+            text = "인증번호가 전송되었어요.",
             fontSize = 22.sp,
             fontWeight = FontWeight.Normal,
             color = Color.White,
             modifier = Modifier
                 .padding(top = 70.dp)
         )
+
         CustomTextField(
-            value = email,
-            onvalueChanged = { email = it },
+            value = certificateNumber,
+            onvalueChanged = {
+                if (it.length < 7) {
+                    certificateNumber = it
+                }
+            },
             modifier = Modifier
                 .padding(top = 30.dp)
                 .fillMaxWidth()
                 .height(69.dp),
-            placeholderText = "회사 이메일",
-            onErrorState = !emailValid,
-            errorMessage = "올바른 이메일을 입력해 주세요.",
+            placeholderText = "인증 번호",
             keyboardActions = KeyboardActions(onDone = {
-                if (emailValid) {
-                    appState.navigate(SIGNUP_EMAIL_VALIDATE_ROUTE)
-                }
+                appState.navigate(SIGNUP_PASSWORD_ROUTE)
             })
         )
 
@@ -94,16 +79,16 @@ fun SignUpScreen(
 
         Button(
             onClick = {
-                // 구현 X
-                appState.navigate(SIGNUP_EMAIL_VALIDATE_ROUTE)
+                appState.navigate(SIGNUP_PASSWORD_ROUTE)
             },
             shape = RectangleShape,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 60.dp), colors = ButtonDefaults.buttonColors(POINT)
+                .padding(bottom = 60.dp),
+            colors = ButtonDefaults.buttonColors(POINT)
         ) {
             Text(
-                text = "인증번호 전송",
+                text = "이메일 인증",
                 color = MAIN_BACKGROUND,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
@@ -111,13 +96,5 @@ fun SignUpScreen(
             )
         }
 
-    }
-}
-
-fun isValidEmail(target: CharSequence?): Boolean {
-    return if (TextUtils.isEmpty(target)) {
-        true
-    } else {
-        Patterns.EMAIL_ADDRESS.matcher(target).matches()
     }
 }
