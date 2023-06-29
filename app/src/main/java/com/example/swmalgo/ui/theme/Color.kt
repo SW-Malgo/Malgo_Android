@@ -13,3 +13,5 @@ val Pink40 = Color(0xFF7D5260)
 val MAIN_BACKGROUND = Color(0xFF191919)
 val POINT = Color(0xff00FF4E)
 val SEARCH_BLUE = Color(0xff7489FF)
+
+val PURE_WHITE = Color(0xffffffff)

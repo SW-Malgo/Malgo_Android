@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.sp
 import com.example.swmalgo.R
 import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.components.rememberApplicationState
+import com.example.swmalgo.ui.theme.POINT
+import com.example.swmalgo.ui.theme.PURE_WHITE
 import com.example.swmalgo.utils.Constants.MAIN_GRAPH
 import com.example.swmalgo.utils.Constants.SPLASH_ROUTE
 import kotlinx.coroutines.delay
@@ -70,7 +72,7 @@ fun SplashScreen(
     ) {
         Text(
             buildAnnotatedString {
-                withStyle(style = SpanStyle(color = Color(0xffffffff))) {
+                withStyle(style = SpanStyle(color = PURE_WHITE)) {
                     append("업무 말고(MALGO) 취미생활")
                 }
             },
@@ -83,7 +85,7 @@ fun SplashScreen(
 
         Text(
             buildAnnotatedString {
-                withStyle(style = SpanStyle(color = Color(0xff00ff4e))) {
+                withStyle(style = SpanStyle(color = POINT)) {
                     append("Malgo!")
                 }
             },
@@ -94,25 +96,25 @@ fun SplashScreen(
         )
 
         Text(buildAnnotatedString {
-            withStyle(style = SpanStyle(color = Color(0xffffffff))) {
+            withStyle(style = SpanStyle(color = PURE_WHITE)) {
                 append("공통 ")
             }
-            withStyle(style = SpanStyle(color = Color(0xff00ff4e))) {
+            withStyle(style = SpanStyle(color = POINT)) {
                 append("관심사")
             }
-            withStyle(style = SpanStyle(color = Color(0xffffffff))) {
+            withStyle(style = SpanStyle(color = PURE_WHITE)) {
                 append("와 ")
             }
-            withStyle(style = SpanStyle(color = Color(0xff00ff4e))) {
+            withStyle(style = SpanStyle(color = POINT)) {
                 append("취미")
             }
-            withStyle(style = SpanStyle(color = Color(0xffffffff))) {
+            withStyle(style = SpanStyle(color = PURE_WHITE)) {
                 append("를 통한\n")
             }
-            withStyle(style = SpanStyle(color = Color(0xff00ff4e))) {
+            withStyle(style = SpanStyle(color = POINT)) {
                 append("동료 ")
             }
-            withStyle(style = SpanStyle(color = Color(0xffffffff))) {
+            withStyle(style = SpanStyle(color = PURE_WHITE)) {
                 append("연결 플랫폼, 말고!")
             }
         },
@@ -124,7 +126,7 @@ fun SplashScreen(
 
         Text(
             buildAnnotatedString {
-                withStyle(style = SpanStyle(color = Color(0xffffffff))) {
+                withStyle(style = SpanStyle(color = PURE_WHITE)) {
                     append("#음악 #운동 #스터디 #특강 #봉사")
                 }
             },
@@ -137,7 +139,7 @@ fun SplashScreen(
 
         Text(
             buildAnnotatedString {
-                withStyle(style = SpanStyle(color = Color(0xffffffff))) {
+                withStyle(style = SpanStyle(color = PURE_WHITE)) {
                     append("관심사가 같은 동료를 만나보세요")
                 }
             },
