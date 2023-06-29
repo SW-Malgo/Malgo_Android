@@ -17,7 +17,7 @@ fun NavGraphBuilder.mainGraph(
 ) {
     navigation(startDestination = MainScreens.HOME.route, route = MAIN_GRAPH) {
         composable(MainScreens.HOME.route) { entry ->
-            HomeScreen(appState)
+            HomeScreen()
         }
         composable(MainScreens.MYPAGE.route) { entry ->
             MypageScreen()
