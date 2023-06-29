@@ -1,4 +1,4 @@
-package com.example.swmalgo.domain
+package com.example.swmalgo.ui.components
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry

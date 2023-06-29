@@ -1,4 +1,4 @@
-package com.example.swmalgo.domain
+package com.example.swmalgo.ui.components
 
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState

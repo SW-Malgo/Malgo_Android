@@ -10,4 +10,6 @@ object Constants {
 
     // Graphs
     const val MAIN_GRAPH = "main-graph"
+
+    const val BASE_URL = "https://jsonplaceholder.typicode.com/"
 }

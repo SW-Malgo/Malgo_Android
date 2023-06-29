@@ -10,8 +10,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.example.swmalgo.ui.theme.SwMalgoTheme
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.swmalgo.domain.ManageBottomBarState
-import com.example.swmalgo.domain.rememberApplicationState
+import com.example.swmalgo.ui.components.ManageBottomBarState
+import com.example.swmalgo.ui.components.rememberApplicationState
 import com.example.swmalgo.ui.components.RootNavHost
 import dagger.hilt.android.AndroidEntryPoint
 
