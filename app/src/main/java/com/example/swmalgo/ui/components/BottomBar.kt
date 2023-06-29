@@ -24,6 +24,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.swmalgo.R
 import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.graph.MainScreens
+import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
+import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.utils.Constants.MAIN_GRAPH
 
 @Composable
@@ -43,7 +45,7 @@ fun BoxScope.BottomBar(
             .navigationBarsPadding(),
     ) {
         BottomNavigation(
-            backgroundColor = Color.White,
+            backgroundColor = MAIN_BACKGROUND,
             elevation = 0.dp
         ) {
             val navBackStackEntry by appState.navController.currentBackStackEntryAsState()
@@ -53,19 +55,15 @@ fun BoxScope.BottomBar(
                     currentDestination?.hierarchy?.any { it.route == screen.route } == true
                 BottomNavigationItem(
                     icon = {
-                        Surface {
-                            Icon(
-                                painter = painterResource(
-                                    id = R.drawable.ic_launcher_foreground
-//                                    (if (isSelected) screen.selectedIcon else screen.unselectedIcon),
-                                ),
-                                contentDescription = null,
-                            )
-                        }
+                        Icon(
+                            painter = painterResource(
+                                id = (if (isSelected) screen.selectedIcon else screen.unselectedIcon),
+                            ),
+                            contentDescription = null,
+                            tint = Color.Unspecified
+                        )
                     },
-                    label = {
-                        Text(text = screen.title)
-                    },
+                    label = null,
                     selected = isSelected,
                     onClick = {
                         appState.navController.navigate(screen.route) {
