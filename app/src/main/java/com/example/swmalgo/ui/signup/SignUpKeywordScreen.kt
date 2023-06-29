@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -22,9 +24,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -37,7 +41,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.swmalgo.R
 import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.components.rememberApplicationState
-import com.example.swmalgo.ui.theme.Gray600
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.ui.theme.PURE_WHITE
@@ -119,16 +122,7 @@ fun SignUpKeywordScreen(
                 )
             }
 
-            Box(
-                modifier = Modifier
-                    .padding(top = 12.dp)
-                    .fillMaxWidth()
-                    .height(250.dp)
-                    .verticalScroll(rememberScrollState())
-                    .background(Gray600)
-            ) {
-
-            }
+            KeywordBox()
         }
 
         Button(
@@ -153,5 +147,76 @@ fun SignUpKeywordScreen(
                 modifier = Modifier.padding(3.dp)
             )
         }
+    }
+}
+
+@Composable
+@Preview
+private fun KeywordBox() {
+    val configuration = LocalConfiguration.current
+
+    val sw = configuration.screenWidthDp
+    val sh = configuration.screenHeightDp
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .verticalScroll(rememberScrollState())
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(top = 12.dp)
+                .fillMaxWidth()
+                .wrapContentHeight()
+        ) {
+            Box(
+                modifier = Modifier
+                    .offset(x = (sw * 0.6).toInt().dp, y = (sh * 0.1).toInt().dp)
+                    .size(115.dp)
+                    .clip(RoundedCornerShape(80))
+                    .background(POINT.copy(alpha = 0.5f))
+            ) {
+                Text(
+                    text = "#오픈소스",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = PURE_WHITE,
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                )
+            }
+
+            Box(
+                modifier = Modifier
+                    .offset(x = (sw * 0.8).toInt().dp, y = (sh * 0.3).toInt().dp)
+                    .size(165.dp)
+                    .clip(RoundedCornerShape(80))
+                    .background(POINT.copy(alpha = 0.5f))
+            ) {
+                Text(
+                    text = "#AI",
+                    fontSize = 38.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = PURE_WHITE,
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                )
+            }
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
     }
 }
