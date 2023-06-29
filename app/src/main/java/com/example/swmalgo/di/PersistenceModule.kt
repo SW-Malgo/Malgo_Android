@@ -1,6 +1,6 @@
 package com.example.swmalgo.di
 
-import com.example.swmalgo.network.HomeService
+import com.example.swmalgo.network.MalgoService
 import com.example.swmalgo.network.MalgoClient
 import com.example.swmalgo.network.ServiceInterceptor
 import com.example.swmalgo.utils.Constants.BASE_URL
@@ -36,7 +36,7 @@ object PersistenceModule {
     }
 
     @Provides
-    fun provideRunwayRetrofit(
+    fun provideMalgoRetrofit(
         okHttpClient: OkHttpClient,
     ): Retrofit {
         return Retrofit.Builder()
@@ -51,17 +51,17 @@ object PersistenceModule {
     @Singleton
     fun provideHomeService(
         retrofit: Retrofit,
-    ): HomeService {
-        return retrofit.create(HomeService::class.java)
+    ): MalgoService {
+        return retrofit.create(MalgoService::class.java)
     }
 
     @Provides
     @Singleton
     fun provideMalgoClient(
-        homeService: HomeService,
+        malgoService: MalgoService,
     ): MalgoClient {
         return MalgoClient(
-            homeService = homeService
+            malgoService = malgoService
         )
     }
 
