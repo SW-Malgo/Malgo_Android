@@ -32,6 +32,7 @@ import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.utils.Constants
 import com.example.swmalgo.utils.Constants.MAIN_GRAPH
 import com.example.swmalgo.utils.Constants.SIGNUP_GRAPH
+import com.example.swmalgo.utils.Constants.SIGNUP_KEYWORD_ROUTE
 
 @Composable
 fun SignUpPasswordScreen(appState: ApplicationState) {
@@ -117,11 +118,7 @@ fun SignUpPasswordScreen(appState: ApplicationState) {
                 errorMessage = "비밀번호가 다릅니다.",
                 keyboardActions = KeyboardActions(onDone = {
                     if (!passwordVaild) {
-                        appState.navController.navigate(MAIN_GRAPH) {
-                            popUpTo(SIGNUP_GRAPH) {
-                                inclusive = true
-                            }
-                        }
+                        appState.navController.navigate(SIGNUP_KEYWORD_ROUTE)
                     }
                 }),
                 visibleTransform = PasswordVisualTransformation()
@@ -131,11 +128,7 @@ fun SignUpPasswordScreen(appState: ApplicationState) {
         }
         Button(
             onClick = {
-                appState.navController.navigate(MAIN_GRAPH) {
-                    popUpTo(SIGNUP_GRAPH) {
-                        inclusive = true
-                    }
-                }
+                appState.navController.navigate(SIGNUP_KEYWORD_ROUTE)
             },
             shape = RectangleShape,
             modifier = Modifier

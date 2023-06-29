@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,11 +13,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -25,124 +32,124 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.example.swmalgo.R
+import com.example.swmalgo.domain.model.ApplicationState
+import com.example.swmalgo.ui.components.rememberApplicationState
+import com.example.swmalgo.ui.theme.Gray600
+import com.example.swmalgo.ui.theme.Gray800
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.ui.theme.PURE_WHITE
+import com.example.swmalgo.ui.theme.White800
+import com.example.swmalgo.utils.Constants
+import com.example.swmalgo.utils.Constants.MAIN_GRAPH
+import com.example.swmalgo.utils.Constants.SIGNUP_GRAPH
 
-@Preview
 @Composable
-fun SignUpKeywordScreen() {
+@Preview
+fun SignUpKeywordScreen(
+    appState: ApplicationState = rememberApplicationState()
+) {
     Box(
         modifier = Modifier
             .background(MAIN_BACKGROUND)
             .fillMaxSize()
-    ){
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(start = 30.dp)
     ) {
-        Text(
-            buildAnnotatedString {
-                withStyle(style = SpanStyle(color = PURE_WHITE)) {
-                    append("직장인들의 은밀한 취미생활 malgo!")
-                }
-            },
-            fontSize = 19.sp,
+        Column(
             modifier = Modifier
-                .padding(top = 146.dp)
-        )
-
-        Text(
-            buildAnnotatedString {
-                withStyle(style = SpanStyle(color = PURE_WHITE)) {
-                    append("관심사 키워드를\n" +
-                            "선택해주세요")
-                }
-            },
-            fontSize = 39.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .padding(top = 21.dp)
-        )
-
-        Text(
-            buildAnnotatedString {
-                withStyle(style = SpanStyle(color = PURE_WHITE)) {
-                    append("최소 1개 ~ 최대 3개")
-                }
-            },
-            fontSize = 10.sp,
-            modifier = Modifier
-                .padding(top = 20.dp)
-        )
-
-        Row(
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(start = 12.dp, top = 36.dp)
-        ){
+                .fillMaxSize()
+                .padding(horizontal = 30.dp)
+        ) {
             Text(
                 buildAnnotatedString {
                     withStyle(style = SpanStyle(color = PURE_WHITE)) {
-                        append("현재 핫한 모임")
+                        append("업무말고(MALGO) 취미생활")
                     }
                 },
-                fontSize = 21.sp
-            )
-            Image(
-                painter = painterResource(id = R.drawable.ic_fire),
-                contentDescription = null,
-                contentScale = ContentScale.FillHeight, // ScaleType
+                fontSize = 19.sp,
                 modifier = Modifier
-                    .size(width = 23.dp, height = 30.dp)
+                    .padding(top = 100.dp)
             )
 
-        }
+            Column {
+                Text(
+                    text = "관심사 키워드를",
+                    fontSize = 36.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    modifier = Modifier
+                        .padding(top = 5.dp)
+                )
+                Text(
+                    text = "선택해주세요",
+                    fontSize = 36.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                )
+            }
 
-        Box(
-            modifier = Modifier
-                .padding(top = 62.dp)
-                .width(324.dp)
-                .height(144.dp)
-                .background(Color.LightGray)
-        ){
+
             Text(
-                text = "#~~~"
+                text = "최소 1개 ~ 최대 3개",
+                fontSize = 16.sp,
+                modifier = Modifier.padding(top = 15.dp),
+                color = White800
             )
+
+            Row(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(top = 40.dp),
+            ) {
+                Text(
+                    text = "현재 핫한 모임",
+                    color = Color.White,
+                    fontSize = 19.sp
+                )
+                Spacer(modifier = Modifier.width(5.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.ic_fire),
+                    contentDescription = null,
+                    contentScale = ContentScale.FillHeight, // ScaleType
+                    modifier = Modifier
+                        .size(width = 23.dp, height = 30.dp)
+                )
+            }
+
+            Box(
+                modifier = Modifier
+                    .padding(top = 12.dp)
+                    .fillMaxWidth()
+                    .height(250.dp)
+                    .verticalScroll(rememberScrollState())
+                    .background(Gray600)
+            ) {
+
+            }
         }
 
-        Box(
-            modifier = Modifier
-                .weight(1f)
-        )
-
-        /*Image(
-            painter = painterResource(id = R.drawable.ic_next_btn),
-            contentDescription = null,
-            contentScale = ContentScale.Fit, // ScaleType
-            modifier = Modifier
-                .padding(start = 269.dp, bottom = 69.dp)
-                .size(width = 55.dp, height = 55.dp)
-        )*/
-    }
-
-        Box(
+        Button(
+            onClick = {
+                appState.navController.navigate(MAIN_GRAPH) {
+                    popUpTo(SIGNUP_GRAPH) {
+                        inclusive = true
+                    }
+                }
+            },
+            shape = RectangleShape,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(60.dp)
-                .background(POINT)
-                .align(Alignment.BottomCenter)
-        ){
+                .align(Alignment.BottomCenter),
+            colors = ButtonDefaults.buttonColors(POINT)
+        ) {
             Text(
-                text = "시작하기",
-                fontSize = 20.sp,
+                text = "회원 가입",
+                color = MAIN_BACKGROUND,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .padding(top = 17.dp, start = 160.dp)
+                modifier = Modifier.padding(3.dp)
             )
         }
     }

@@ -7,9 +7,11 @@ import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.signup.SignUpEmailVerifyScreen
 import com.example.swmalgo.ui.signup.SignUpPasswordScreen
 import com.example.swmalgo.ui.signup.SignUpEmailScreen
+import com.example.swmalgo.ui.signup.SignUpKeywordScreen
 import com.example.swmalgo.utils.Constants.SIGNUP_EMAIL_ROUTE
 import com.example.swmalgo.utils.Constants.SIGNUP_EMAIL_VALIDATE_ROUTE
 import com.example.swmalgo.utils.Constants.SIGNUP_GRAPH
+import com.example.swmalgo.utils.Constants.SIGNUP_KEYWORD_ROUTE
 import com.example.swmalgo.utils.Constants.SIGNUP_PASSWORD_ROUTE
 
 
@@ -28,6 +30,10 @@ fun NavGraphBuilder.signUpGraph(
 
         composable(SIGNUP_PASSWORD_ROUTE) {
             SignUpPasswordScreen(appState)
+        }
+
+        composable(SIGNUP_KEYWORD_ROUTE) {
+            SignUpKeywordScreen(appState)
         }
     }
 
