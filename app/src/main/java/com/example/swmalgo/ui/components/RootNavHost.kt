@@ -9,6 +9,7 @@ import androidx.compose.material.SnackbarHost
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -44,7 +45,6 @@ fun RootNavHost(
                 startDestination = SPLASH_ROUTE,
                 Modifier
                     .fillMaxSize()
-                    .padding(innerPadding)
                     .background(color = Color.White),
             ) {
                 mainGraph(appState)

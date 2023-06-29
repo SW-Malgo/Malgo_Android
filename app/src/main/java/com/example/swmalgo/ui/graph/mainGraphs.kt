@@ -17,7 +17,7 @@ fun NavGraphBuilder.mainGraph(
 ) {
     navigation(startDestination = MainScreens.HOME.route, route = MAIN_GRAPH) {
         composable(MainScreens.HOME.route) { entry ->
-            HomeScreen()
+            HomeScreen(appState)
         }
         composable(MainScreens.MYPAGE.route) { entry ->
             MypageScreen()
@@ -26,7 +26,7 @@ fun NavGraphBuilder.mainGraph(
             GroupScreen()
         }
         composable(HOME_INTERESTED_ROUTE) {
-            HomeInterestedScreen()
+            HomeInterestedScreen(appState)
         }
 
     }
