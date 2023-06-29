@@ -42,6 +42,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.swmalgo.R
@@ -56,40 +58,21 @@ fun UploadGroupScreen(
     appState: ApplicationState
 ) {
 
-    var name by remember {
-        mutableStateOf("")
-    }
+    val viewModel: UploadViewModel = hiltViewModel()
 
-    var tag by remember {
-        mutableStateOf("")
-    }
-
-    var content by remember {
-        mutableStateOf("")
-    }
-
-    var imageList by remember {
-        mutableStateOf(listOf<Uri>())
-    }
-
-    var tagList by remember {
-        mutableStateOf(listOf<String>())
-    }
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val pagerState = rememberPagerState(
         initialPage = 0,
         initialPageOffsetFraction = 0f
     ) {
-        imageList.size
+        uiState.imageList.size
     }
 
     val galleryLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            // Handle the returned Uri
             uri?.let {
-                imageList = imageList.toMutableList().apply {
-                    add(uri)
-                }
+                viewModel.addImage(it)
             }
         }
 
@@ -142,7 +125,7 @@ fun UploadGroupScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = 30.dp)
         ) {
-            if (imageList.isNotEmpty()) {
+            if (uiState.imageList.isNotEmpty()) {
                 Box {
                     HorizontalPager(
                         state = pagerState,
@@ -153,11 +136,11 @@ fun UploadGroupScreen(
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .aspectRatio(1.3f),
+                                .aspectRatio(1.1f),
                         ) {
 
                             GlideImage(
-                                model = imageList[it],
+                                model = uiState.imageList[it],
                                 contentDescription = null,
                                 modifier = Modifier
                                     .fillMaxSize(),
@@ -171,11 +154,7 @@ fun UploadGroupScreen(
                                     .padding(20.dp)
                                     .size(24.dp)
                                     .clickable {
-                                        imageList = imageList
-                                            .toMutableList()
-                                            .apply {
-                                                remove(imageList[it])
-                                            }
+                                        viewModel.removeImage(uiState.imageList[it])
                                     },
                                 tint = Color.White
                             )
@@ -185,7 +164,7 @@ fun UploadGroupScreen(
 
                     HorizontalPagerIndicator(
                         pagerState = pagerState,
-                        pageCount = imageList.size,
+                        pageCount = uiState.imageList.size,
                         activeColor = Color.White,
                         inactiveColor = Color.White.copy(alpha = 0.3f),
                         modifier = Modifier
@@ -225,8 +204,8 @@ fun UploadGroupScreen(
             ) {
 
                 CustomTextField(
-                    value = name,
-                    onvalueChanged = { name = it },
+                    value = uiState.name,
+                    onvalueChanged = viewModel::updateName,
                     modifier = Modifier
                         .padding(top = 30.dp)
                         .fillMaxWidth()
@@ -235,8 +214,8 @@ fun UploadGroupScreen(
                 )
 
                 CustomTextField(
-                    value = tag,
-                    onvalueChanged = { tag = it },
+                    value = uiState.tag,
+                    onvalueChanged = viewModel::updateTag,
                     modifier = Modifier
                         .padding(top = 10.dp)
                         .fillMaxWidth()
@@ -249,10 +228,8 @@ fun UploadGroupScreen(
                             color = Color.White,
                             fontSize = 14.sp,
                             modifier = Modifier.clickable {
-                                tagList = tagList.toMutableList().apply {
-                                    add("#$tag")
-                                }
-                                tag = ""
+                                viewModel.addTag("#${uiState.tag}")
+                                viewModel.updateTag("")
                             })
                     }
                 )
@@ -260,14 +237,14 @@ fun UploadGroupScreen(
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    tagList.forEach {
+                    uiState.tagList.forEach {
                         Text(text = it, fontSize = 18.sp, color = Color.White)
                     }
                 }
 
                 CustomTextField(
-                    value = content,
-                    onvalueChanged = { content = it },
+                    value = uiState.content,
+                    onvalueChanged = viewModel::updateContent,
                     modifier = Modifier
                         .padding(top = 10.dp)
                         .fillMaxWidth(),
@@ -277,7 +254,7 @@ fun UploadGroupScreen(
                 )
 
                 Text(
-                    text = "${name.length}/500",
+                    text = "${uiState.name.length}/500",
                     color = Color.White,
                     modifier = Modifier.align(Alignment.End)
                 )
