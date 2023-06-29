@@ -48,9 +48,11 @@ import com.example.swmalgo.ui.components.rememberApplicationState
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.POINT
 import com.example.swmalgo.ui.theme.PURE_WHITE
+import com.example.swmalgo.utils.Constants
 import com.example.swmalgo.utils.Constants.DETAIL_PAGE_AFTER_JOIN_ROUTE
 import com.example.swmalgo.utils.Constants.UPLOAD_GROUP_ROUTE
 import com.example.swmalgo.utils.Constants.HOME_INTERESTED_ROUTE
+import com.example.swmalgo.utils.Constants.USER_NUMBER
 import com.google.accompanist.pager.HorizontalPagerIndicator
 
 @Composable
@@ -91,7 +93,7 @@ fun HomeScreen(appState: ApplicationState = rememberApplicationState()) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "5382번째 말고님, 환영해요!",
+                    text = "${USER_NUMBER}번째 말고님, 환영해요!",
                     color = PURE_WHITE,
                     fontSize = 16.sp,
                     modifier = Modifier.clickable {

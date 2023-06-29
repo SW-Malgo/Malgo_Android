@@ -57,12 +57,12 @@ class SignUpViewModel @Inject constructor(
         _passwordCheck.value = passwordCheck
     }
 
-    fun updateKeyWord(keyWord: List<String>) {
-        _keyWord.value = keyWord
-    }
-
     fun addKeyWord(keyWord: String) {
         _keyWord.value = _keyWord.value + keyWord
+    }
+
+    fun removeKeyword(keyWord: String) {
+        _keyWord.value = _keyWord.value - keyWord
     }
 
     companion object {

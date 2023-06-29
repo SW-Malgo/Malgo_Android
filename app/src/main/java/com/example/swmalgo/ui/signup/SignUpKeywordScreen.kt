@@ -34,13 +34,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -62,6 +60,7 @@ fun SignUpKeywordScreen(
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
 
     Box(
         modifier = Modifier
@@ -132,10 +131,17 @@ fun SignUpKeywordScreen(
             }
 
             KeywordBox(
-//                showSnackBar = {
-//                    appState.showSnackbar("3")
-//                }
-            )
+                showSnackBar = {
+                    appState.showSnackbar("3개 이상의 태그를 설정할 수 없습니다.")
+                },
+                keywordList = uiState.keyWord,
+                updateKeywordList = { isChecked, tag ->
+                    if (isChecked) {
+                        viewModel.addKeyWord(tag)
+                    } else {
+                        viewModel.removeKeyword(tag)
+                    }
+                })
         }
 
         Button(
@@ -164,14 +170,11 @@ fun SignUpKeywordScreen(
 }
 
 @Composable
-@Preview
-private fun KeywordBox() {
-    val configuration = LocalConfiguration.current
-
-
-    var keywordList by remember {
-        mutableStateOf(listOf<String>())
-    }
+private fun KeywordBox(
+    showSnackBar: () -> Unit,
+    updateKeywordList: (Boolean, String) -> Unit,
+    keywordList: List<String>
+) {
 
     Box(
         modifier = Modifier
@@ -201,23 +204,16 @@ private fun KeywordBox() {
 
             RoundCheckbox(sw, sh, cs, ht, fs,
                 listSize = keywordList.size,
-            onclick = { isChecked->
-                if(isChecked){
-                    keywordList = keywordList.toMutableList().apply {
-                        add(ht)
-                    }
-                }else{
-                    keywordList = keywordList.toMutableList().apply {
-                        remove(ht)
-                    }
+                showSnackBar = showSnackBar,
+                onclick = { isChecked ->
+                    updateKeywordList(isChecked, ht)
                 }
-
-            }
             )
             index += 1
         }
     }
 }
+
 @Composable
 fun RoundCheckbox(
     sw: Int,
@@ -226,7 +222,8 @@ fun RoundCheckbox(
     ht: String,
     fs: Int,
     onclick: (Boolean) -> Unit,
-    listSize: Int
+    listSize: Int,
+    showSnackBar: () -> Unit
 ) {
     var isChecked by remember {
         mutableStateOf(false)
@@ -237,10 +234,12 @@ fun RoundCheckbox(
             .size(cs.dp)
             .clip(RoundedCornerShape(80))
             .clickable {
-                if (listSize > 3) {
+                if (listSize > 2) {
                     if (isChecked) {
                         isChecked = !isChecked
-                    } else{
+                        onclick(isChecked)
+                    } else {
+                        showSnackBar()
                     }
                 } else {
                     isChecked = !isChecked

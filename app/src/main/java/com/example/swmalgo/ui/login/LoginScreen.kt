@@ -213,7 +213,8 @@ fun LoginScreen(appState: ApplicationState) {
             Row(
                 modifier = Modifier.clickable {
                     appState.navigate(SIGNUP_GRAPH)
-                }
+                },
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = "회원가입",

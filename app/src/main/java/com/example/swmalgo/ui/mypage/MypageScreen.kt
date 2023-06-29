@@ -42,6 +42,7 @@ import com.example.swmalgo.ui.theme.Gray800
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import com.example.swmalgo.ui.theme.PURE_WHITE
 import com.example.swmalgo.ui.theme.White800
+import com.example.swmalgo.utils.Constants.USER_NUMBER
 
 @Composable
 @Preview
@@ -87,7 +88,7 @@ fun MypageScreen() {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "ㅇㅇ번째 말고님",
+                            text = "${USER_NUMBER}번째 말고님",
                             fontSize = 20.sp,
                             color = Color.White,
                             fontWeight = FontWeight.Bold
@@ -162,7 +163,6 @@ fun MypageScreen() {
                             )
                         }
                     }
-
                 }
             }
         )

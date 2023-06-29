@@ -37,5 +37,7 @@ object Constants {
         R.drawable.img_profile_9,
     )
 
+    const val USER_NUMBER = 1152
+
     const val BASE_URL = "http://54.180.114.174:8080"
 }
