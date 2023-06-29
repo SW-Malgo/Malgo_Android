@@ -129,6 +129,7 @@ fun LoginScreen() {
                 },
                 fontSize = 14.sp,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
+                    .padding(top = 16.dp)
             )
         }
         Row(

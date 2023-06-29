@@ -13,6 +13,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.swmalgo.ui.components.ManageBottomBarState
 import com.example.swmalgo.ui.components.rememberApplicationState
 import com.example.swmalgo.ui.components.RootNavHost
+import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

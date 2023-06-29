@@ -4,6 +4,7 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
 import androidx.navigation.NavHostController
+import com.google.accompanist.systemuicontroller.SystemUiController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -14,6 +15,7 @@ class ApplicationState(
     val navController: NavHostController,
     val scaffoldState: ScaffoldState,
     private val coroutineScope: CoroutineScope,
+    val uiController: SystemUiController,
 ) {
 
     fun changeBottomBarVisibility(visibility: Boolean) {
