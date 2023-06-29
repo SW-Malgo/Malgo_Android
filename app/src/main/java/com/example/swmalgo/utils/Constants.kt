@@ -37,5 +37,5 @@ object Constants {
         R.drawable.img_profile_9,
     )
 
-    const val BASE_URL = "https://jsonplaceholder.typicode.com/"
+    const val BASE_URL = "http://54.180.114.174:8080"
 }
