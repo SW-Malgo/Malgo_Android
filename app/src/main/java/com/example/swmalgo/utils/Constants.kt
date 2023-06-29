@@ -12,6 +12,7 @@ object Constants {
     const val SIGNUP_EMAIL_VALIDATE_ROUTE = "signup-email-validate-route"
     const val SIGNUP_PASSWORD_ROUTE = "signup-password-route"
     const val SIGNUP_KEYWORD_ROUTE = "signup_keyword-route"
+    const val HOME_INTERESTED_ROUTE = "home-interested-route"
 
     // Graphs
     const val MAIN_GRAPH = "main-graph"
