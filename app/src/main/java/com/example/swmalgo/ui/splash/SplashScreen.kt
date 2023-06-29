@@ -30,6 +30,7 @@ import com.example.swmalgo.R
 import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.components.rememberApplicationState
 import com.example.swmalgo.ui.theme.MAIN_BACKGROUND
+import com.example.swmalgo.utils.Constants.LOGIN_GRAPH
 import com.example.swmalgo.utils.Constants.MAIN_GRAPH
 import com.example.swmalgo.utils.Constants.SPLASH_ROUTE
 import kotlinx.coroutines.delay
@@ -43,7 +44,7 @@ fun SplashScreen(
 
     LaunchedEffect(key1 = Unit) {
         delay(1000L)
-        appState.navController.navigate(MAIN_GRAPH) {
+        appState.navController.navigate(LOGIN_GRAPH) {
             popUpTo(SPLASH_ROUTE) {
                 inclusive = true
             }
@@ -51,6 +52,7 @@ fun SplashScreen(
     }
     appState.uiController.setStatusBarColor(MAIN_BACKGROUND)
     appState.uiController.setSystemBarsColor(MAIN_BACKGROUND)
+
     Image(
         painter = painterResource(id = R.drawable.splacsh_screen),
         contentDescription = null,
