@@ -42,12 +42,12 @@ fun SplashScreen(
 ) {
 
     LaunchedEffect(key1 = Unit) {
-//        delay(1000L)
-//        appState.navController.navigate(MAIN_GRAPH) {
-//            popUpTo(SPLASH_ROUTE) {
-//                inclusive = true
-//            }
-//        }
+        delay(1000L)
+        appState.navController.navigate(MAIN_GRAPH) {
+            popUpTo(SPLASH_ROUTE) {
+                inclusive = true
+            }
+        }
     }
     appState.uiController.setStatusBarColor(MAIN_BACKGROUND)
     appState.uiController.setSystemBarsColor(MAIN_BACKGROUND)
