@@ -24,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
@@ -42,6 +43,7 @@ class KeywordSelectionActivity : ComponentActivity() {
         }
     }
 }
+@Preview(showBackground = true)
 @Composable
 fun KeywordSplashScreen(modifier: Modifier = Modifier) {
     Column(
@@ -88,12 +90,27 @@ fun KeywordSplashScreen(modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .padding(top = 62.dp)
-                .weight(1f)
+                .width(324.dp)
+                .height(144.dp)
                 .background(Color.LightGray)
         ){
             Text(
                 text = "#~~~"
             )
         }
+
+        Box(
+            modifier = Modifier
+                .weight(1f)
+        )
+
+        Image(
+            painter = painterResource(id = R.drawable.ic_next_btn),
+            contentDescription = null,
+            contentScale = ContentScale.Fit, // ScaleType
+            modifier = Modifier
+                .padding(start = 269.dp, bottom = 69.dp)
+                .size(width = 55.dp, height = 55.dp)
+        )
     }
 }
