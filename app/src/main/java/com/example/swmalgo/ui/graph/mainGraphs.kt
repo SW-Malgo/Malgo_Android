@@ -5,6 +5,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.swmalgo.domain.model.ApplicationState
 import com.example.swmalgo.ui.components.rememberNavControllerBackEntry
+import com.example.swmalgo.ui.detailpage.DetailPageAfterJoinScreen
 import com.example.swmalgo.ui.detailpage.DetailPageBeforeJoinScreen
 import com.example.swmalgo.ui.group.GroupScreen
 import com.example.swmalgo.ui.home.HomeInterestedScreen
@@ -41,7 +42,7 @@ fun NavGraphBuilder.mainGraph(
             DetailPageBeforeJoinScreen()
         }
         composable(DETAIL_PAGE_AFTER_JOIN_ROUTE) {
-            DetailPageBeforeJoinScreen()
+            DetailPageAfterJoinScreen()
         }
 
     }
