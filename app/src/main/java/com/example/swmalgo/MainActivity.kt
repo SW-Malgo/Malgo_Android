@@ -23,7 +23,9 @@ import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.example.swmalgo.ui.theme.SwMalgoTheme
 import androidx.compose.ui.text.TextStyle
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val delayMillis: Long = 1000 // 1초
 
